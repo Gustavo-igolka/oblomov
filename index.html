@@ -180,11 +180,11 @@ function toastD(){if(tt>0&&cur){const w=Math.min(W*.9,340);g.fillStyle='rgba(40,
 
 /* ===== МУЗЫКА: файлы лежат в папке music/ рядом с index.html ===== */
 const MU=(()=>{
- const F={menu:'menu',day:'run_day',sunset:'run_sunset',night:'run_night',dream:'dream',bike:'bike',boss:'boss',gon:'goncharov',over:'gameover'};
+ const F={menu:'menu',run:'run',dream:'dream',bike:'bike',boss:'boss',gon:'goncharov',over:'gameover'};
  const SIL='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
  const VOL=.7,ch=[0,1].map(()=>({a:new Audio(),k:null,v:0}));
  let on=true,ok=false;try{on=localStorage.getItem('ob_mus')!='0'}catch(e){}
- const pick=()=>st=='over'?'over':(st=='play'||st=='pause')?(bm||['day','sunset','night'][Math.floor(dist/800)%3]):'menu';
+ const pick=()=>st=='over'?'over':(st=='play'||st=='pause')?(bm||'run'):'menu';
  function unlock(){if(ok)return;ok=true;for(const c of ch){c.a.src=SIL;c.a.play().catch(()=>{})}}
  addEventListener('pointerdown',unlock);addEventListener('keydown',unlock);
  addEventListener('keydown',e=>{if(e.key=='m'||e.key=='M'||e.key=='ь'||e.key=='Ь')toggle()});
