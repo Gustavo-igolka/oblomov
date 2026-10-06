@@ -1,7 +1,8 @@
 <!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Обломов: Беги, Илья Ильич!</title>
-<style>html,body{margin:0;height:100%;background:#3b4a2a;overflow:hidden;touch-action:none;font-family:Georgia,serif}canvas{display:block;width:100%;height:100%}</style></head><body><canvas id="c"></canvas><script>
+<style>html,body{margin:0;height:100%;background:#3b4a2a;overflow:hidden;touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;font-family:Georgia,serif}canvas{display:block;width:100%;height:100%}</style></head><body><canvas id="c"></canvas><script>
 const c=document.getElementById('c'),g=c.getContext('2d');let W,H,D=devicePixelRatio||1;
-function rs(){W=innerWidth;H=innerHeight;c.width=W*D;c.height=H*D;g.setTransform(D,0,0,D,0,0)}rs();addEventListener('resize',rs);
+var SI={t:0,r:0,b:0,l:0};const spr=document.createElement('div');spr.style.cssText='position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.appendChild(spr);
+function rs(){W=innerWidth;H=innerHeight;c.width=W*D;c.height=H*D;g.setTransform(D,0,0,D,0,0);const q=getComputedStyle(spr);SI={t:parseFloat(q.paddingTop)||0,r:parseFloat(q.paddingRight)||0,b:parseFloat(q.paddingBottom)||0,l:parseFloat(q.paddingLeft)||0}}rs();addEventListener('resize',rs);
 const hy=()=>H*.32,gy=()=>H*.82,lw=()=>Math.min(W*.3,H*.28);
 let w2s=0,w2t=0,w2=0,d2b=0,d2f=0,d2h=0,gh=0,gt=0,gc=0,gm=0,gnx=false,gh0=0,sp=0,sh=0,mg=0,ds=0,cb=0,pts=0,nm=0,pa=[],dt2=0,bm=null,bmT=0,bmD=1,bn=0,nextB=1000,bp=0,bsp=14,hurt=0,bx=0,bxT=0,bt2=0,bk=0,tq=[],tt=0,cur='',btn=[],page=0,st='menu',lane,px,jy,jv,slide,objs,spd,dist,pies,lives,inv,spawnT,off=0,shake=0,msg='',msgT=0,best=0,overT=0,lastQ='';
 const Q=['Завтра. Всё завтра.','Захар, где мой халат?!','Диван зовёт…','Дела подождут. Они всегда ждут.','Ах, не трогайте меня!'];
@@ -84,27 +85,86 @@ function draw(){
  for(const l of[-1.5,1.5]){const a=Pq(84,l),b=Pq(-3.5,l);g.strokeStyle='#8a6a3a';g.lineWidth=4;g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke()}
  const s=[...objs].sort((a,b)=>b.z-a.z);if(bm=='bike')dbk();if(bm=='boss')dob({t:'big',l:bk,z:18});if(bm=='dream2'&&d2b)dob({t:'big',l:bk,z:18,st:1});if(bm=='gon'){const p=P(18,bk);dgn(p.x,p.y,lw()*.7*p.t,gnx)}for(const o of s)if(o.z>=0)dob(o);dpl();drawPa();for(const o of s)if(o.z<0)dob(o);
  g.restore();
- if(st=='play'){txt('⏸',W/2,34,22,'#fff');txt((sh?'🧥':'')+(mg>0?'🫖'+Math.ceil(mg):'')+(ds>0?'🛋️'+Math.ceil(ds):''),16,64,20,'#fff','left');if(cb>=5)txt('×'+mult()+'  '+cb+' подряд',W-16,60,16,'#ffe9b0','right');txt('❤'.repeat(Math.max(0,lives)),16,34,26,'#ff6b81','left');txt(Math.floor(dist)+' м  🥟 '+pies,W-16,34,22,'#fff','right');if(bm&&bm!='gon'){g.fillStyle='rgba(255,255,255,.25)';g.fillRect(W*.2,48,W*.6,6);g.fillStyle='#ffe9b0';g.fillRect(W*.2,48,W*.6*bmT/bmD,6)}else if(bm){for(let i=0;i<10;i++){g.fillStyle=i<gh?'#ff7ac8':'rgba(255,255,255,.25)';g.fillRect(W*.2+i*W*.06,46,W*.05,8)}txt('Гончаров '+gh+'/10',W/2,76,14)}
-  if(msgT>0)txt(msg,W/2,H*.2,Math.min(26,W/16),'#ffe9b0')}
- else{g.fillStyle='rgba(36,28,18,.74)';g.fillRect(0,0,W,H);const f=Math.min(40,W/10,H/17),z=Math.min(24,W/24);btn=[];
- const B=(t,y,fn,hh,col,bd)=>{const w=Math.min(W*.8,320),h=hh||f*1.3,x=W/2-w/2;g.fillStyle=col||'#7a2f3b';g.fillRect(x,y,w,h);g.strokeStyle=bd||'#d9a441';g.lineWidth=bd?4:2;g.strokeRect(x,y,w,h);txt(t,W/2,y+h*.66,Math.min(f*.6,h*.48));btn.push({x,y,w,h,fn})};
- const L=(a,y,sz,col)=>a.forEach((t,i)=>txt(t,W/2,y+i*sz*1.5,sz,col||'#ddd'));
- if(st=='menu'){const h=f*.95,gp=f*1.12,y0=H*.33;txt('🛋️',W/2,H*.1,f*1.2);txt('Обломов',W/2,H*.18,f*1.2,'#ffe9b0');txt('Беги, Илья Ильич!',W/2,H*.18+f*.65,f*.5,'#d9a441');
-  [['▶ Играть',()=>{w2=0;go()}],['📖 Сюжет',()=>{st='story';page=0}],['🎭 Герои',()=>st='heroes'],['👘 Скины',()=>{st='skins';sp=0}],['🛒 Магазин',()=>{st='shop';sp=0}],['🏆 Ачивки',()=>st='ach'],['📚 Босс: Гончаров',()=>{w2=0;go();bn=3;sb()}],['🌫️ Мир 2: Достоевский'+(V.gw?'':' 🔒'),()=>{if(V.gw){w2=1;w2t=0;go()}else tq.push('🔒 Победи Гончарова в Мире 1')}]].forEach((q,i)=>B(q[0],y0+i*gp,q[1],h));
-  txt('Рекорд: '+best+'   🥟 '+V.w,W/2,y0+8*gp+f*.2,f*.45,'#aaa')}
- else if(st=='story'){const c=STORY[page],lk=c.a&&!V.a[c.a],A=lk&&AC.find(a=>a[0]==c.a);txt('Сюжет',W/2,H*.12,f*.9,'#ffe9b0');txt(c.t,W/2,H*.22,f*.55,'#d9a441');
-  if(lk){txt('🔒 Глава закрыта',W/2,H*.32,z*1.1);txt('Открой ачивку «'+A[1]+'»',W/2,H*.32+z*1.8,z*.95,'#ddd');txt('('+A[2]+')',W/2,H*.32+z*3.4,z*.85,'#aaa')}else L(c.l,H*.31,z);
-  txt((page+1)+' / '+STORY.length,W/2,H*.56,z*.8,'#888');
-  B(page<STORY.length-1?'Дальше ▶':'▶ Играть',H*.6,()=>{if(page<STORY.length-1)page++;else{w2=0;go()}},f);if(page>0)B('◀ Назад',H*.6+f*1.25,()=>page--,f);B('☰ Меню',H*.6+f*(page>0?2.5:1.25),()=>st='menu',f)}
- else if(st=='heroes'){txt('Герои и враги',W/2,H*.16,f,'#ffe9b0');L(HEROES,H*.3,z);B('☰ Меню',H*.76,()=>st='menu')}
- else if(st=='shop'||st=='skins'){const shp=st=='shop',L2=SK.map((k,i)=>i).filter(i=>V.own.includes(i)!=shp),pg=Math.max(1,Math.ceil(L2.length/5));if(sp>=pg)sp=0;
-  txt(shp?'Магазин':'Скины',W/2,H*.09,f*.9,'#ffe9b0');txt('🥟 '+V.w,W/2,H*.09+f*.9,f*.6);const h=f*.85,gp=f*1.0,y0=H*.2;
-  L2.slice(sp*5,sp*5+5).forEach((i,j)=>{const k=SK[i],lk=k.ac&&!V.a[k.ac],eq=V.sk==i;B(k.n+(shp?(lk?' 🔒 '+AC.find(a=>a[0]==k.ac)[1]:' — '+k.p+' 🥟'):eq?' ✔':''),y0+j*gp,()=>{if(shp){if(!lk&&V.w>=k.p){V.w-=k.p;V.own.push(i);ach('a9')}}else V.sk=i;sv()},h,k.c,eq?'#ffe9b0':null)});
-  if(!L2.length)txt(shp?'Всё куплено!':'Пока пусто',W/2,y0+f,f*.6);
-  const yn=y0+5*gp+f*.2;if(pg>1)B('Стр. '+(sp+1)+'/'+pg+' ▶',yn,()=>sp=(sp+1)%pg,h);B('☰ Меню',yn+(pg>1?gp:0),()=>st='menu',h)}
- else if(st=='ach'){txt('Ачивки '+Object.keys(V.a).length+'/'+AC.length,W/2,H*.09,f*.9,'#ffe9b0');AC.forEach((a,i)=>txt((V.a[a[0]]?'✅ ':'🔒 ')+a[1]+' — '+a[2],W/2,H*.17+i*z*1.4,z*.85,V.a[a[0]]?'#ffe9b0':'#999'));B('☰ Меню',H*.17+AC.length*z*1.4+z,()=>st='menu',f)}
- else if(st=='pause'){txt('Пауза',W/2,H*.3,f*1.2,'#ffe9b0');B('▶ Продолжить',H*.42,()=>st='play');B('☰ В меню',H*.42+f*1.6,()=>st='menu')}
- else{txt('Обломов вернулся на диван 🛋️',W/2,H*.24,Math.min(f*.8,W/14),'#ffe9b0');txt('«'+lastQ+'»',W/2,H*.32,f*.5,'#ddd');txt('Очки: '+score()+'   Рекорд: '+best,W/2,H*.42,f*.55,'#fff');B('↻ Ещё раз',H*.5,go);B('☰ Меню',H*.5+f*1.6,()=>st='menu')}}}
+ if(st=='play'){g.save();g.translate(0,SI.t);txt('⏸',W/2,34,22,'#fff');txt((sh?'🧥':'')+(mg>0?'🫖'+Math.ceil(mg):'')+(ds>0?'🛋️'+Math.ceil(ds):''),16+SI.l,64,20,'#fff','left');if(cb>=5)txt('×'+mult()+'  '+cb+' подряд',W-16-SI.r,60,16,'#ffe9b0','right');txt('❤'.repeat(Math.max(0,lives)),16+SI.l,34,26,'#ff6b81','left');txt(Math.floor(dist)+' м  🥟 '+pies,W-16-SI.r,34,22,'#fff','right');if(bm&&bm!='gon'){g.fillStyle='rgba(255,255,255,.25)';g.fillRect(W*.2,48,W*.6,6);g.fillStyle='#ffe9b0';g.fillRect(W*.2,48,W*.6*bmT/bmD,6)}else if(bm){for(let i=0;i<10;i++){g.fillStyle=i<gh?'#ff7ac8':'rgba(255,255,255,.25)';g.fillRect(W*.2+i*W*.06,46,W*.05,8)}txt('Гончаров '+gh+'/10',W/2,76,14)}
+  if(msgT>0)txt(msg,W/2,H*.2,Math.min(26,W/16),'#ffe9b0');g.restore()}
+ else ui();}
+/* ===== НАВИГАЦИЯ ДЛЯ ТЕЛЕФОНОВ ===== */
+const TB=60,SUB=['story','heroes','shop','skins','ach'];
+let OY=0,CL0=-1e9,CL1=1e9,sc=0,scMax=0,sc0=0,drag=false,pst='menu',hp=0,ign=0;
+function fit(s,mw,fs,mn){g.font=fs+'px Georgia';while(fs>(mn||10)&&g.measureText(s).width>mw){fs-=.5;g.font=fs+'px Georgia'}return fs}
+function Bx(t,x,y,w,h,fn,col,bd,fs,dis){
+ if(dis)g.globalAlpha=.35;
+ g.fillStyle=col||'#7a2f3b';g.fillRect(x,y,w,h);g.strokeStyle=bd||'#d9a441';g.lineWidth=bd?4:2;g.strokeRect(x,y,w,h);
+ if(!dis&&sx!=null&&!drag&&sx>x&&sx<x+w&&sy>y-OY&&sy<y-OY+h&&sy>=CL0&&sy<=CL1){g.fillStyle='rgba(255,255,255,.22)';g.fillRect(x,y,w,h)}
+ if(Array.isArray(t)){const a=fit(t[0],w-20,fs||Math.min(h*.34,20));txt(t[0],x+w/2,y+h*.46,a);if(t[1])txt(t[1],x+w/2,y+h*.8,fit(t[1],w-20,a*.78,9),'#ffe9b0')}
+ else{const a=fit(t,w-16,fs||Math.min(h*.42,22));txt(t,x+w/2,y+h/2+a*.34,a)}
+ g.globalAlpha=1;if(!dis)btn.push({x,y:y-OY,w,h,fn,c0:CL0,c1:CL1})}
+function hdr(t,sub){const hh=SI.t+TB;g.fillStyle='rgba(20,14,8,.6)';g.fillRect(0,0,W,hh);g.fillStyle='#d9a441';g.fillRect(0,hh-2,W,2);
+ Bx('◀ Меню',SI.l+8,SI.t+8,92,44,()=>st='menu','#4a3a2a',null,16);
+ const mw=W-200-2*Math.max(SI.l,SI.r);txt(t,W/2,SI.t+(sub?TB*.46:TB*.64),fit(t,mw,sub?20:24),'#ffe9b0');if(sub)txt(sub,W/2,SI.t+TB*.84,13,'#ddd');return hh}
+function scr(cy0,cy1,ch,fn){scMax=Math.max(0,ch-(cy1-cy0));sc=Math.min(sc,scMax);
+ g.save();g.beginPath();g.rect(0,cy0,W,cy1-cy0);g.clip();g.translate(0,-sc);OY=sc;CL0=cy0;CL1=cy1;fn();g.restore();OY=0;CL0=-1e9;CL1=1e9;
+ if(scMax>0){const vh=cy1-cy0,th=Math.max(30,vh*vh/ch);g.fillStyle='rgba(255,233,176,.45)';g.fillRect(W-5-SI.r,cy0+(vh-th)*sc/scMax,3,th)}}
+function ui(){
+ g.fillStyle='rgba(36,28,18,.74)';g.fillRect(0,0,W,H);btn=[];scMax=0;
+ const f=Math.min(40,W/10,H/17),cx=(SI.l+W-SI.r)/2;
+ if(st=='menu')menuUI(f,cx,SI.t,H-SI.b);
+ else if(st=='story')storyUI(cx);
+ else if(st=='heroes'||st=='ach')listUI(cx);
+ else if(st=='shop'||st=='skins')shopUI(cx);
+ else{const bh=Math.max(f*1.3,46),bw=Math.min(W*.8,320),sp2=Math.max(f*1.6,bh+10);
+  const B=(t,y,fn)=>Bx(t,cx-bw/2,y,bw,bh,fn,null,null,Math.min(22,bh*.45));
+  if(st=='pause'){txt('Пауза',cx,H*.3,f*1.2,'#ffe9b0');B('▶ Продолжить',H*.42,()=>st='play');B('☰ В меню',H*.42+sp2,()=>st='menu')}
+  else{txt('Обломов вернулся на диван 🛋️',cx,H*.24,Math.min(f*.8,W/14),'#ffe9b0');txt('«'+lastQ+'»',cx,H*.32,f*.5,'#ddd');txt('Очки: '+score()+'   Рекорд: '+best,cx,H*.42,f*.55,'#fff');B('↻ Ещё раз',H*.5,go);B('☰ Меню',H*.5+sp2,()=>st='menu')}}}
+function menuUI(f,cx,top,bot){
+ const land=W>H*1.2,gap=10,wl=!V.gw,rec='Рекорд: '+best+'   🥟 '+V.w;
+ const rows=(x,wd,y,u)=>{const hw=(wd-gap)/2;let yy=y;
+  Bx('▶ Играть',x,yy,wd,u*1.35,()=>{w2=0;go()},'#a63d4e','#ffe9b0',Math.min(u*.5,26));yy+=u*1.35+gap;
+  Bx(['📚 Босс','Гончаров'],x,yy,hw,u,()=>{w2=0;go();bn=3;sb()});
+  Bx(['🌫️ Мир 2',wl?'🔒 закрыт':'Достоевский'],x+hw+gap,yy,hw,u,()=>{if(V.gw){w2=1;w2t=0;go()}else tq.push('🔒 Победи Гончарова в Мире 1')},wl?'#3a3a44':'#3b3f6a');yy+=u+gap;
+  Bx('📖 Сюжет',x,yy,hw,u,()=>{st='story';page=0});Bx('🎭 Герои',x+hw+gap,yy,hw,u,()=>st='heroes');yy+=u+gap;
+  Bx('👘 Скины',x,yy,hw,u,()=>{st='skins'});Bx('🛒 Магазин',x+hw+gap,yy,hw,u,()=>{st='shop'});yy+=u+gap;
+  Bx('🏆 Ачивки '+Object.keys(V.a).length+'/'+AC.length,x,yy,wd,u,()=>st='ach');return yy+u};
+ if(!land){
+  const th=Math.min(150,H*.2),u=Math.max(44,Math.min(60,(bot-top-th-24-4*gap-30)/5.35)),wd=Math.min(W-32-SI.l-SI.r,400),x=cx-wd/2;
+  scr(top,bot,th+8+u*5.35+4*gap+50,()=>{txt('🛋️',cx,top+th*.3,th*.3);txt('Обломов',cx,top+th*.62,Math.min(f*1.2,th*.3),'#ffe9b0');txt('Беги, Илья Ильич!',cx,top+th*.84,Math.min(f*.5,th*.13),'#d9a441');
+   const ye=rows(x,wd,top+th+8,u);txt(rec,cx,ye+gap+16,Math.min(f*.45,16),'#aaa')})}
+ else{
+  const f2=Math.min(40,H/9,W/16),lx=(SI.l+W/2)/2,ly=H/2;
+  txt('🛋️',lx,ly-f2*1.1,f2*1.4);txt('Обломов',lx,ly+f2*.4,f2*1.3,'#ffe9b0');txt('Беги, Илья Ильич!',lx,ly+f2*1.2,f2*.5,'#d9a441');txt(rec,lx,ly+f2*2.1,f2*.42,'#aaa');
+  const wd=Math.min((W-SI.l-SI.r)*.45,380),px0=(W/2+W-SI.r)/2,u=Math.max(40,Math.min(54,(bot-top-16-4*gap)/5.35)),ch=u*5.35+4*gap+16;
+  scr(top,bot,ch,()=>rows(px0-wd/2,wd,top+Math.max(8,(bot-top-ch)/2+8),u))}}
+function storyUI(cx){
+ const c=STORY[page],lk=c.a&&!V.a[c.a],A=lk&&AC.find(a=>a[0]==c.a);
+ const hh=hdr('Сюжет',(page+1)+' / '+STORY.length),nb=64+SI.b,cy1=H-nb,mw=Math.min(W-32-SI.l-SI.r,480),zz=Math.min(20,W/18),ls=zz*1.65;
+ const lines=lk?[['🔒 Глава закрыта',1.1,'#fff'],['Открой ачивку «'+A[1]+'»',.95,'#ddd'],['('+A[2]+')',.85,'#aaa']]:c.l.map(t=>[t,1,'#ddd']);
+ scr(hh,cy1,34+ls*1.6+(lines.length-1)*ls+30,()=>{txt(c.t,cx,hh+34,fit(c.t,mw,Math.min(26,W/13)),'#d9a441');lines.forEach((l,i)=>txt(l[0],cx,hh+34+ls*1.6+i*ls,fit(l[0],mw,zz*l[1]),l[2]))});
+ g.fillStyle='rgba(20,14,8,.75)';g.fillRect(0,cy1,W,nb);g.fillStyle='#d9a441';g.fillRect(0,cy1,W,2);
+ const bw=W-SI.l-SI.r-24,x0=SI.l+12,bh=48,by=cy1+8,pw=bw*.3;
+ Bx('◀',x0,by,pw,bh,()=>{page--;sc=0},'#4a3a2a',null,22,page==0);
+ Bx(page<STORY.length-1?'Дальше ▶':'▶ Играть',x0+pw+10,by,bw-pw-10,bh,()=>{if(page<STORY.length-1){page++;sc=0}else{w2=0;go()}})}
+function listUI(cx){
+ const ac=st=='ach',hh=hdr(ac?'Ачивки':'Герои и враги',ac?Object.keys(V.a).length+' / '+AC.length:null);
+ const rw=Math.min(W-24-SI.l-SI.r,460),x=cx-rw/2,h=54,gp=8,y0=hh+10;
+ const it=ac?AC.map(a=>{const d=!!V.a[a[0]];return[(d?'✅ ':'🔒 ')+a[1],a[2],d]}):HEROES.map(s=>{const i=s.indexOf(' — ');return i<0?[s,'',true]:[s.slice(0,i),s.slice(i+3),true]});
+ scr(hh,H,10+it.length*(h+gp)+SI.b+10,()=>it.forEach((q,i)=>{const y=y0+i*(h+gp),d=q[2];
+  g.fillStyle=d?'rgba(255,233,176,.10)':'rgba(255,255,255,.05)';g.fillRect(x,y,rw,h);g.fillStyle=d?'#d9a441':'#555';g.fillRect(x,y,4,h);
+  txt(q[0],x+14,y+h*.44,fit(q[0],rw-26,17),d?'#ffe9b0':'#999','left');if(q[1])txt(q[1],x+14,y+h*.8,fit(q[1],rw-26,13,9),d?'#ddd':'#888','left')}))}
+function shopUI(cx){
+ const shp=st=='shop',L2=SK.map((k,i)=>i).filter(i=>V.own.includes(i)!=shp),hh=hdr(shp?'Магазин':'Скины','🥟 '+V.w);
+ const rw=Math.min(W-24-SI.l-SI.r,460),x=cx-rw/2,h=56,gp=8,y0=hh+10;
+ scr(hh,H,10+Math.max(1,L2.length)*(h+gp)+SI.b+10,()=>{
+  if(!L2.length)txt(shp?'Всё куплено!':'Пока пусто',cx,y0+h*.6,20,'#ddd');
+  L2.forEach((i,j)=>{const k=SK[i],lk=k.ac&&!V.a[k.ac],eq=V.sk==i,y=y0+j*(h+gp),an=k.ac?AC.find(a=>a[0]==k.ac)[1]:'';
+   const sub=shp?(lk?'🔒 '+an:k.p+' 🥟'+(V.w<k.p?' · не хватает':'')):(eq?'✔ Надето':'Надеть');
+   Bx([k.n,sub],x,y,rw,h,()=>{if(shp){if(lk)tq.push('🔒 Нужна ачивка «'+an+'»');else if(V.w>=k.p){V.w-=k.p;V.own.push(i);ach('a9');tq.push('Куплено: '+k.n)}else tq.push('Не хватает 🥟: нужно '+k.p)}else V.sk=i;sv()},k.c,eq?'#ffe9b0':null)})})}
+function wt(){if(st==pst)return;sc=0;
+ if(st=='menu'){if(hp){hp=0;ign=1;try{history.back()}catch(e){ign=0}}}
+ else if(!hp){try{history.pushState(null,'');hp=1}catch(e){}}
+ pst=st}
+addEventListener('popstate',()=>{if(ign){ign=0;return}hp=0;if(st=='play')st='pause';else if(st!='menu')st='menu'});
+addEventListener('wheel',e=>{if(st!='play')sc=Math.max(0,Math.min(scMax,sc+e.deltaY))},{passive:true});
+
 const STORY=[
 {t:'Глава 1. Диван',l:['Гороховая улица, Петербург.','Илья Ильич Обломов лежит на диване','уже третий год. Это его крепость,','его страна и его единственный план.']},
 {t:'Глава 2. Живые дела',l:['В этом Петербурге дела — живые.','Письма сами ползут под дверь,','«СРОЧНО!» повисло над улицей,','а долги ходят по пятам и стучат в окна.']},
@@ -129,18 +189,25 @@ function act(a){if(st!='play')return;
  if(a=='l')lane=Math.max(-1,lane-1);if(a=='r')lane=Math.min(1,lane+1);
  if(a=='u'&&jy==0){jy=.001;jv=11;slide=0}
  if(a=='d'){slide=.7;if(jy>0)jv=-20}}
-addEventListener('keydown',e=>{if(e.key=='Escape'||e.key=='p'){if(st=='play')st='pause';else if(st=='pause')st='play';return}
+addEventListener('keydown',e=>{if(e.key=='Escape'||e.key=='p'){if(st=='play')st='pause';else if(st=='pause')st='play';else if(SUB.includes(st))st='menu';return}
  if(st=='pause'){if(e.key==' '||e.key=='Enter')st='play';return}
  if(st!='play'){if((e.key==' '||e.key=='Enter')&&(st=='menu'||(st=='over'&&overT<=0)))go();return}
  const m={ArrowLeft:'l',a:'l',ArrowRight:'r',d:'r',ArrowUp:'u',w:'u',' ':'u',ArrowDown:'d',s:'d'}[e.key];if(m){e.preventDefault();act(m)}});
 let sx,sy,fired;
-addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;fired=false;
- if(st=='play'){if(Math.abs(sx-W/2)<30&&sy<56){st='pause';fired=true}return}
- fired=true;if(st=='over'&&overT>0)return;
- for(const b of btn)if(sx>b.x&&sx<b.x+b.w&&sy>b.y&&sy<b.y+b.h){b.fn();return}});
-addEventListener('pointermove',e=>{if(fired||sx==null)return;const dx=e.clientX-sx,dy=e.clientY-sy;
+addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;fired=false;drag=false;sc0=sc;
+ if(st=='play'){if(Math.abs(sx-W/2)<30&&sy<56+SI.t){st='pause';fired=true}return}
+ fired=true});
+addEventListener('pointermove',e=>{if(sx==null)return;const dx=e.clientX-sx,dy=e.clientY-sy;
+ if(st!='play'){if(Math.abs(dx)>10||Math.abs(dy)>10)drag=true;if(drag&&scMax>0&&Math.abs(dy)>Math.abs(dx))sc=Math.max(0,Math.min(scMax,sc0-dy));return}
+ if(fired)return;
  if(Math.abs(dx)>30||Math.abs(dy)>30){act(Math.abs(dx)>Math.abs(dy)?(dx>0?'r':'l'):(dy>0?'d':'u'));fired=true}});
-addEventListener('pointerup',e=>{if(!fired&&st=='play')act('u');sx=null});
+addEventListener('pointerup',e=>{if(sx==null)return;
+ if(st!='play'){const dx=e.clientX-sx,dy=e.clientY-sy;
+  if(st=='story'&&Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){if(dx<0&&page<STORY.length-1){page++;sc=0}else if(dx>0&&page>0){page--;sc=0}}
+  else if(!drag&&!(st=='over'&&overT>0)){for(const b of btn)if(sx>b.x&&sx<b.x+b.w&&sy>b.y&&sy<b.y+b.h&&(b.c0==null||(sy>=b.c0&&sy<=b.c1))){try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}b.fn();break}}
+  sx=null;drag=false;return}
+ if(!fired)act('u');sx=null});
+addEventListener('pointercancel',()=>{sx=null;drag=false});
 const SK=[{n:'Классический',c:'#7a2f3b',p:0},{n:'Синий халат',c:'#2f4a7a',p:80},{n:'Зелёный халат',c:'#2f6a45',p:120},{n:'С ночным колпаком',c:'#7a2f3b',p:200,cap:'#d94a4a'},{n:'Золотой',c:'#b8892e',d:'#fff',p:300},{n:'Белый с колпаком',c:'#e8e4d8',d:'#7a2f3b',p:400,cap:'#e8e4d8'},
 {n:'Захар',c:'#5b6b4a',d:'#c9b27a',h:'#8a8a8a',sb:1,p:500},{n:'Агафья Пшеницына',c:'#8a6a9a',d:'#fff',dr:1,cap:'#fff',h:'#6a4a2a',p:650,ac:'a6'},{n:'Ольга',c:'#d9a0b8',d:'#fff',dr:1,hat:'#f5e6c8',h:'#6a4a2a',p:600,ac:'a7',tr:'🌸'},{n:'Андрей Штольц',c:'#2f3640',d:'#fff',top:1,h:'#c9a24a',p:700,ac:'a12'},{n:'Розовый халат',c:'#ff7ac8',d:'#fff',p:350,ac:'a16'},{n:'Илья-страница',c:'#efe3c6',d:'#222',h:'#222',p:450,ac:'a17'},{n:'Святой Илья',c:'#f4f0e0',d:'#d9a441',halo:1,p:800,ac:'a15'},{n:'Гончаров',c:'#f4f0e0',d:'#d9a441',halo:1,br:1,h:'#ddd',p:1000,ac:'a14',tr:'✒️'},{n:'Князь Мышкин',c:'#cfc8b0',d:'#6a4a2a',h:'#c9a24a',p:900,ac:'a19'},{n:'Раскольников',c:'#3a3030',d:'#8a1a1a',top:1,h:'#4a3020',p:1100,ac:'a22'},{n:'Достоевский',c:'#2a2a30',d:'#fff',br:1,h:'#6a5a4a',p:1500,ac:'a24',tr:'🕯️'}];
 const PWI=['🧥','🫖','🛋️'],PWM=['Халат-щит!','Самовар: пирожки липнут!','Диван-рывок!'];
@@ -217,7 +284,7 @@ const MU=(()=>{
    c.v+=Math.max(-dt*.8,Math.min(dt*.8,tg-c.v));c.a.volume=Math.max(0,Math.min(1,c.v));
    if(c.k&&c.k!=w&&c.v<=.001){c.a.pause();c.k=null}}}
  return{tick,toggle,on:()=>on}})();
-function drawMute(){const s=44,x=W-s-8,y=8;g.fillStyle='rgba(0,0,0,.35)';g.fillRect(x,y,s,s);txt(MU.on()?'🔊':'🔇',x+s/2,y+s*.7,s*.5);btn.unshift({x,y,w:s,h:s,fn:MU.toggle})}
+function drawMute(){const s=44,x=(st=='menu'&&W>H*1.2)?SI.l+8:W-s-8-SI.r,y=8+SI.t;g.fillStyle='rgba(0,0,0,.35)';g.fillRect(x,y,s,s);txt(MU.on()?'🔊':'🔇',x+s/2,y+s*.7,s*.5);btn.unshift({x,y,w:s,h:s,fn:MU.toggle})}
 let last=performance.now();
-(function loop(n){const dt=Math.min(.05,(n-last)/1000);last=n;tt-=dt;if(tt<=0&&tq.length){cur=tq.shift();tt=2.5}if(st!='play'&&st!='pause')bm=null;if(st=='over')overT-=dt;if(st=='play')upd(dt);else off+=dt*6;draw();toastD();if(st!='play')drawMute();MU.tick(dt);requestAnimationFrame(loop)})(last);
+(function loop(n){const dt=Math.min(.05,(n-last)/1000);last=n;tt-=dt;if(tt<=0&&tq.length){cur=tq.shift();tt=2.5}if(st!='play'&&st!='pause')bm=null;if(st=='over')overT-=dt;if(st=='play')upd(dt);else off+=dt*6;wt();draw();toastD();if(st!='play')drawMute();MU.tick(dt);requestAnimationFrame(loop)})(last);
 </script></body></html>
