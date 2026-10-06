@@ -177,6 +177,26 @@ function dgn(x,y,u,pk){g.fillStyle=pk?'rgba(255,90,190,.35)':'rgba(255,215,90,.3
  g.font=u*.5+'px serif';g.textAlign='center';g.fillText('✒️',x+u*.5,y-u*.9);txt('ГОНЧАРОВ',x,y-u*2.35,Math.max(10,u*.2),pk?'#ff9ad6':'#ffe9b0')}
 function dbk(){const p=P(18,bk),u=lw()*.7*p.t,x=p.x,y=p.y;g.textAlign='center';g.font=u*1.3+'px serif';g.fillText('🚲',x,y-u*.1);g.font=u*.55+'px serif';g.fillText('🎩',x-u*.22,y-u);g.fillText('👒',x+u*.22,y-u*.95);txt('Андрей и Ольга',x,y-u*1.6,Math.max(10,u*.28))}
 function toastD(){if(tt>0&&cur){const w=Math.min(W*.9,340);g.fillStyle='rgba(40,30,18,.92)';g.fillRect(W/2-w/2,H*.14,w,38);g.strokeStyle='#d9a441';g.lineWidth=2;g.strokeRect(W/2-w/2,H*.14,w,38);txt(cur,W/2,H*.14+25,Math.min(18,w/20),'#ffe9b0')}}
+
+/* ===== МУЗЫКА: файлы лежат в папке music/ рядом с index.html ===== */
+const MU=(()=>{
+ const F={menu:'menu',day:'run_day',sunset:'run_sunset',night:'run_night',dream:'dream',bike:'bike',boss:'boss',gon:'goncharov',over:'gameover'};
+ const SIL='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+ const VOL=.7,ch=[0,1].map(()=>({a:new Audio(),k:null,v:0}));
+ let on=true,ok=false;try{on=localStorage.getItem('ob_mus')!='0'}catch(e){}
+ const pick=()=>st=='over'?'over':(st=='play'||st=='pause')?(bm||['day','sunset','night'][Math.floor(dist/800)%3]):'menu';
+ function unlock(){if(ok)return;ok=true;for(const c of ch){c.a.src=SIL;c.a.play().catch(()=>{})}}
+ addEventListener('pointerdown',unlock);addEventListener('keydown',unlock);
+ addEventListener('keydown',e=>{if(e.key=='m'||e.key=='M'||e.key=='ь'||e.key=='Ь')toggle()});
+ function toggle(){on=!on;try{localStorage.setItem('ob_mus',on?'1':'0')}catch(e){}}
+ function tick(dt){if(!ok)return;const w=on&&!document.hidden?pick():null;
+  if(w&&!ch.some(c=>c.k==w)){const c=ch.filter(c=>c.k!=w).sort((a,b)=>a.v-b.v)[0];
+   c.k=w;c.v=0;c.a.volume=0;c.a.loop=w!='over';c.a.src='music/'+F[w]+'.mp3';c.a.play().catch(()=>{})}
+  for(const c of ch){const tg=c.k&&c.k==w?VOL*(st=='pause'?.3:1):0;
+   c.v+=Math.max(-dt*.8,Math.min(dt*.8,tg-c.v));c.a.volume=Math.max(0,Math.min(1,c.v));
+   if(c.k&&c.k!=w&&c.v<=.001){c.a.pause();c.k=null}}}
+ return{tick,toggle,on:()=>on}})();
+function drawMute(){const s=44,x=W-s-8,y=8;g.fillStyle='rgba(0,0,0,.35)';g.fillRect(x,y,s,s);txt(MU.on()?'🔊':'🔇',x+s/2,y+s*.7,s*.5);btn.unshift({x,y,w:s,h:s,fn:MU.toggle})}
 let last=performance.now();
-(function loop(n){const dt=Math.min(.05,(n-last)/1000);last=n;tt-=dt;if(tt<=0&&tq.length){cur=tq.shift();tt=2.5}if(st!='play'&&st!='pause')bm=null;if(st=='over')overT-=dt;if(st=='play')upd(dt);else off+=dt*6;draw();toastD();requestAnimationFrame(loop)})(last);
+(function loop(n){const dt=Math.min(.05,(n-last)/1000);last=n;tt-=dt;if(tt<=0&&tq.length){cur=tq.shift();tt=2.5}if(st!='play'&&st!='pause')bm=null;if(st=='over')overT-=dt;if(st=='play')upd(dt);else off+=dt*6;draw();toastD();if(st!='play')drawMute();MU.tick(dt);requestAnimationFrame(loop)})(last);
 </script></body></html>
