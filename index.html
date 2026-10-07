@@ -5,20 +5,20 @@
    При ЛЮБОМ изменении кода увеличивай GAME_VERSION на +1.
    Пример: 1 -> 2 -> 3 -> 4...
    ================================================================ */
-const GAME_VERSION=1;
+const GAME_VERSION=2;
 const c=document.getElementById('c'),g=c.getContext('2d');let W,H,D=devicePixelRatio||1;
 var SI={t:0,r:0,b:0,l:0};const spr=document.createElement('div');spr.style.cssText='position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.appendChild(spr);
 function rs(){W=innerWidth;H=innerHeight;c.width=W*D;c.height=H*D;g.setTransform(D,0,0,D,0,0);const q=getComputedStyle(spr);SI={t:parseFloat(q.paddingTop)||0,r:parseFloat(q.paddingRight)||0,b:parseFloat(q.paddingBottom)||0,l:parseFloat(q.paddingLeft)||0}}rs();addEventListener('resize',rs);
 const hy=()=>H*.32,gy=()=>H*.82,lw=()=>Math.min(W*.3,H*.28);
-let w2s=0,w2t=0,w2=0,bossPhase=0,bossAtk=0,bossAtkT=0,bossPattern=0,bossRush=0,bossHp=5,bossPinkT=0,bikeDist=0,bikeDodges=0,bikeNearMiss=0,d2b=0,d2f=0,d2h=0,gh=0,gt=0,gc=0,gm=0,gnx=false,gh0=0,sp=0,sh=0,mg=0,ds=0,cb=0,pts=0,nm=0,pa=[],dt2=0,bm=null,bmT=0,bmD=1,bn=0,nextB=1000,bp=0,bsp=14,hurt=0,bx=0,bxT=0,bt2=0,bk=0,tq=[],tt=0,cur='',btn=[],page=0,st='menu',lane,px,jy,jv,slide,roll,rollT,rollCount,rollBest,rollTotal,rollTotalDist,rollDist,rollAvoid,objs,spd,dist,pies,lives,inv,spawnT,off=0,shake=0,msg='',msgT=0,best=0,overT=0,lastQ='',ax=0,ht=0,hcd=0,wb=0,rk={h:5,m:0,t:0,z:18,l:0,tl:0,up:0,f:0,x:0,s:0,a:0,fl:0};
+let rollGap=0,nvD=0,nvS=-1,nvP=3,nvW=0,nvT=1,nvH=0,nvSeen=0,dkH0=0,dkP=0,dkDone=0,dk={h:12,a:3,at:0,n:2,m:0,t:0,z:18,l:0,tl:0,f:0,x:0,g:0,r:0,sp:0,up:0},w2s=0,w2t=0,w2=0,bossPhase=0,bossAtk=0,bossAtkT=0,bossPattern=0,bossRush=0,bossHp=5,bossPinkT=0,bikeDist=0,bikeDodges=0,bikeNearMiss=0,d2b=0,d2f=0,d2h=0,gh=0,gt=0,gc=0,gm=0,gnx=false,gh0=0,sp=0,sh=0,mg=0,ds=0,cb=0,pts=0,nm=0,pa=[],dt2=0,bm=null,bmT=0,bmD=1,bn=0,nextB=1000,bp=0,bsp=14,hurt=0,bx=0,bxT=0,bt2=0,bk=0,tq=[],tt=0,cur='',btn=[],page=0,st='menu',lane,px,jy,jv,slide,roll,rollT,rollCount,rollBest,rollTotal,rollTotalDist,rollDist,rollAvoid,objs,spd,dist,pies,lives,inv,spawnT,off=0,shake=0,msg='',msgT=0,best=0,overT=0,lastQ='',ax=0,ht=0,hcd=0,wb=0,rk={h:5,m:0,t:0,z:18,l:0,tl:0,up:0,f:0,x:0,s:0,a:0,fl:0};
 const Q=['Завтра. Всё завтра.','Захар, где мой халат?!','Диван зовёт…','Дела подождут. Они всегда ждут.','Ах, не трогайте меня!'];
 const bld=Array.from({length:40},()=>({w:30+Math.random()*30,h:20+Math.random()*60}));
 const score=()=>Math.floor(dist)+pts;
-function reset(){ax=0;ht=0;hcd=0;wb=0;rk={h:5,m:0,t:0,z:18,l:0,tl:0,up:0,f:0,x:0,s:0,a:0,fl:0};d2b=0;w2s=0;sh=0;mg=0;ds=0;cb=0;pts=0;nm=0;pa=[];bm=null;bn=0;nextB=1000;hurt=0;bk=0;lane=0;px=0;jy=0;jv=0;slide=0;roll=0;rollT=0;rollCount=0;rollBest=0;rollTotal=0;rollTotalDist=0;rollDist=0;rollAvoid=0;bossPhase=0;bossAtk=0;bossAtkT=0;bossPattern=0;bossRush=0;bossHp=5;bossPinkT=0;bikeDist=0;bikeDodges=0;bikeNearMiss=0;objs=[];spd=14;dist=0;pies=0;lives=3;inv=0;spawnT=0;shake=0;msgT=0}
+function reset(){rollGap=0;nvD=0;nvSeen=0;dkDone=0;dkP=0;ax=0;ht=0;hcd=0;wb=0;rk={h:5,m:0,t:0,z:18,l:0,tl:0,up:0,f:0,x:0,s:0,a:0,fl:0};d2b=0;w2s=0;sh=0;mg=0;ds=0;cb=0;pts=0;nm=0;pa=[];bm=null;bn=0;nextB=1000;hurt=0;bk=0;lane=0;px=0;jy=0;jv=0;slide=0;roll=0;rollT=0;rollCount=0;rollBest=0;rollTotal=0;rollTotalDist=0;rollDist=0;rollAvoid=0;bossPhase=0;bossAtk=0;bossAtkT=0;bossPattern=0;bossRush=0;bossHp=5;bossPinkT=0;bikeDist=0;bikeDodges=0;bikeNearMiss=0;objs=[];spd=14;dist=0;pies=0;lives=3;inv=0;spawnT=0;shake=0;msgT=0}
 reset();let V={best:0,w:0,tp:0,sk:0,own:[0],a:{}};try{Object.assign(V,JSON.parse(localStorage.getItem('ob_v2')||'{}'))}catch(e){}
 const sv=()=>{try{localStorage.setItem('ob_v2',JSON.stringify(V))}catch(e){}};best=V.best;
 function spawn(){
- const r=Math.random(),l=Math.floor(Math.random()*3)-1,o=(t,L,z,x)=>objs.push(Object.assign({t,l:L,z},x));
+ const r=Math.random(),l=Math.floor(Math.random()*3)-1,o=(t,L,z,x)=>objs.push(Object.assign({t,l:L,z},w2&&t=='big'&&Math.random()<.25?{yl:1}:null,x));
  const other=l<=0?l+1:l-1,far=-l||1;
  if(r<.06)o('pw',l,45,{k:Math.random()*3|0});
  else if(w2&&r<.10)o('axp',l,45);
@@ -33,11 +33,11 @@ function spawn(){
 function upd(dt){
  if(!bm)spd=Math.min(w2?34:32,spd+dt*(w2?.35:.30));const v=spd*(ds>0?1.8:roll>0?1.45:1);dist+=v*dt;off+=v*dt;px+=(lane-px)*Math.min(1,dt*14);dt2-=dt;if(dt2<=0&&jy==0){dt2=.1;fx(W/2+px*lw(),gy(),'#c9a96a',1,SK[V.sk].tr)}for(const p of pa){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=300*dt;p.t-=dt}pa=pa.filter(p=>p.t>0);mg-=dt;ds-=dt;
  if(jy>0){jv-=38*dt;jy+=jv*dt;if(jy<=0){jy=0;jv=0}}
- if(roll>0){rollDist+=v*dt;rollTotalDist=(rollTotalDist||0)+v*dt;roll-=dt;rollT=Math.max(0,rollT-dt);if(rollTotalDist>=100)ach('a36');if(roll<=0){roll=0;rollT=0;rollCount=0}}
+ if(roll>0){rollDist+=v*dt;rollTotalDist=(rollTotalDist||0)+v*dt;roll-=dt;rollT=Math.max(0,rollT-dt);if(rollTotalDist>=100)ach('a36');if(roll<=0){roll=0;rollT=0;rollGap=1.2}}if(rollGap>0&&roll<=0){rollGap-=dt;if(rollGap<=0)rollCount=0}
  if(slide>0)slide-=dt;inv-=dt;shake-=dt;msgT-=dt;if(ax>0&&bm!='rask')ax-=dt;
  if(bm)bon(dt,v);else{spawnT-=spd*dt;if(spawnT<=0){spawn();spawnT=(w2?16:18)+(w2?Math.random()*8:Math.random()*10)-spd*(w2?.1:.07)}}
- if(!bm&&dist>=nextB)sb();if(!bm&&!w2&&dist>=8000){w2=1;w2t=1;w2s=dist;nextB=dist+800;objs=[];spawnT=22;wb=0;ach('a14');ach('a18');ach('a25');msg='Чернильное пятно! Мир 2: Достоевский';msgT=3.5;shake=.5}if(dist>=500)ach('a2');if(dist>=1000){ach('a3');if(!hurt)ach('a10')}if(dist>=2000)ach('a4');if(w2){const q=dist-w2s;if(q>=500)ach('a19');if(q>=1500)ach('a22');if(q>=3000)ach('a24')}
- hcd-=dt;if(ht>0){ht-=dt;for(const o of objs)if(!o.d&&(o.t=='big'||o.t=='low'||o.t=='high')&&o.z<4.8&&o.z>-.5&&Math.abs(o.l-px)<.7){o.d=1;pts+=20;shake=.12;fx(W/2+px*lw(),gy()-lw()*.5,'#c58bff',10);if(o.t=='big'&&o.st)ach('a30');if(bm=='boss'&&o.z<2.5)bossRush++}}
+ if(w2&&!bm&&!dkDone&&dist-w2s>=3000)sb('dost');else if(!bm&&dist>=nextB)sb();if(!w2&&!bm&&nvWin()){if(!nvSeen){nvSeen=1;msg='Слева Нева! Свайпни влево с левой дорожки';msgT=3}}else nvSeen=0;if(!bm&&!w2&&dist>=8000){w2=1;w2t=1;w2s=dist;nextB=dist+800;objs=[];spawnT=22;wb=0;ach('a14');ach('a18');ach('a25');msg='Чернильное пятно! Мир 2: Достоевский';msgT=3.5;shake=.5}if(dist>=500)ach('a2');if(dist>=1000){ach('a3');if(!hurt)ach('a10')}if(dist>=2000)ach('a4');if(w2){const q=dist-w2s;if(q>=500)ach('a19');if(q>=1500)ach('a22');if(q>=3000)ach('a24')}
+ hcd-=dt;if(ht>0){ht-=dt;for(const o of objs)if(o.yl&&!o.d&&!o.hit&&o.z<4.8&&o.z>-.5&&Math.abs(o.l-px)<.7){o.hit=1;fx(W/2+px*lw(),gy()-lw()*.5,'#ffd34a',6);shake=.1}else if(!o.d&&!o.yl&&(o.t=='big'||o.t=='low'||o.t=='high')&&o.z<4.8&&o.z>-.5&&Math.abs(o.l-px)<.7){o.d=1;pts+=20;shake=.12;fx(W/2+px*lw(),gy()-lw()*.5,'#c58bff',10);if(o.t=='big'&&o.st)ach('a30');if(bm=='boss'&&o.z<2.5)bossRush++}}
  for(const o of objs){o.z-=v*dt;
   if(o.tl!=null)o.l+=(o.tl-o.l)*Math.min(1,dt*5);
   if(o.sw&&o.z<24&&!o.m){o.m=1;o.tl=o.l+(o.l<=0?1:-1)}
@@ -48,10 +48,10 @@ function upd(dt){
    else if(o.t=='pw'){o.d=1;if(o.k==0)sh=1;if(o.k==1)mg=9;if(o.k==2)ds=3;msg=PWM[o.k];msgT=1.5}
    else if(o.t=='axp'){o.d=1;getAx()}
    else if(o.t=='god'&&o.pk){o.d=1;gh--;gt+=1;gc+=1.2;pts+=100;shake=.35;msg='Удар! Гончаров: '+gh+'/10';msgT=1.2;fx(W/2+px*lw(),gy()-lw()*.5,'#ff7ac8',14);if(gh<=0)gw()}
-   else if(ds>0||o.pk){o.d=1;pts+=o.pk?15:10;fx(W/2+px*lw(),gy()-lw()*.5,o.pk?'#ff7ac8':'#fff',8);if(o.pk){V.pk=(V.pk||0)+1;if(V.pk>=20)ach('a16');if(bm=='boss'){bossHp--;bossRush++;msg='Попадание по Штольцу! '+bossHp+'/5';msgT=1.1;if(bossHp<=0){msg='Штольц повержен!';msgT=2;eb()}}}}
+   else if(ds>0||o.pk){o.d=1;pts+=o.pk?15:10;fx(W/2+px*lw(),gy()-lw()*.5,o.pk?'#ff7ac8':'#fff',8);if(o.pk){V.pk=(V.pk||0)+1;if(V.pk>=20)ach('a16');if(bm=='dost'&&++dkP>=5)ach('a48');if(bm=='boss'){bossHp--;bossRush++;msg='Попадание по Штольцу! '+bossHp+'/5';msgT=1.1;if(bossHp<=0){msg='Штольц повержен!';msgT=2;eb()}}}}
    else if(inv<=0&&(o.t=='big'||(o.t=='low'&&jy<.45)||(o.t=='high'&&slide<=0&&roll<=0))){o.d=1;fx(W/2+px*lw(),gy()-lw()*.5,'#fff',10);
     dmg()}}
-  if(o.z<-.8&&!o.d&&!o.n){o.n=1;if(bm=='boss'&&(o.t=='low'||o.t=='high'||o.t=='big')&&Math.abs(o.l-px)<1.2)bossRush++;if(o.t!='pie'&&o.t!='pw'&&o.t!='axp'&&Math.abs(o.l-px)<1.2){pts+=25;nm++;msg='Ловко, Илья Ильич!';msgT=.9;if(nm>=10)ach('a11')}}}
+  if(o.z<-.8&&!o.d&&!o.n){o.n=1;if(bm=='bike'&&(o.t=='low'||o.t=='high'||o.t=='big'))bikeDodges++;if(bm=='boss'&&(o.t=='low'||o.t=='high'||o.t=='big')&&Math.abs(o.l-px)<1.2)bossRush++;if(o.t!='pie'&&o.t!='pw'&&o.t!='axp'&&Math.abs(o.l-px)<1.2){pts+=25;nm++;msg='Ловко, Илья Ильич!';msgT=.9;if(nm>=10)ach('a11')}}}
  objs=objs.filter(o=>o.z>-3&&!o.d)}
 function P(z,l){const t=1/(1+Math.max(z,-2)*.1);return{t,x:W/2+l*lw()*t,y:hy()+(gy()-hy())*t}}
 const Pq=(z,l)=>{const t=1/(1+Math.max(z,-3.5)*.1);return{t,x:W/2+l*lw()*t,y:hy()+(gy()-hy())*t}};
@@ -70,7 +70,7 @@ function dob0(o){const p=P(o.z,o.l),t=p.t,u=lw()*.7*t,x=p.x,y=p.y;g.textAlign='c
  else{g.font=u*.6+'px serif';g.fillText(o.g?'🌟':'🥟',x,y-u*.35-(o.y?u*1.1:0)+Math.sin(off*.3+o.z)*u*.05)}}
 function dpl(){const u=lw()*.7,x=W/2+px*lw(),y=gy()-jy*u,k=SK[V.sk];
  if(inv>0&&Math.floor(inv*12)%2)return;
- g.fillStyle='rgba(0,0,0,.3)';g.beginPath();g.ellipse(x,gy(),u*.4*(1-jy*.2),u*.1,0,0,7);g.fill();
+ if(bm=='neva'){g.textAlign='center';g.font=u*1.3+'px serif';g.fillText('🛶',x,gy()+u*.15)}g.fillStyle='rgba(0,0,0,.3)';g.beginPath();g.ellipse(x,gy(),u*.4*(1-jy*.2),u*.1,0,0,7);g.fill();
  const cy=Math.sin(dist*.9),bob=jy>0?0:Math.abs(cy)*u*.06,h=ds>0?u*.5:slide>0?u*.7:u*1.1,sw=jy>0?.6:cy;
  if(ds>0){g.textAlign='center';g.font=u*1.5+'px serif';g.fillText('🛋️',x,y)}
  if(roll>0){g.textAlign='center';g.font=u*1.35+'px serif';g.fillText('🤸',x,y-u*.1);}
@@ -92,20 +92,20 @@ function dpl(){const u=lw()*.7,x=W/2+px*lw(),y=gy()-jy*u,k=SK[V.sk];
 function txt(s,x,y,sz,col,al){g.textAlign=al||'center';g.font=sz+'px Georgia';g.shadowColor='rgba(0,0,0,.55)';g.shadowBlur=5;g.fillStyle=col||'#fff';g.fillText(s,x,y);g.shadowBlur=0}
 function draw(){
  g.save();if(shake>0)g.translate((Math.random()-.5)*8,(Math.random()-.5)*8);
- const gn=bm=='gon',dr=bm=='dream'||gn,sk=g.createLinearGradient(0,0,0,hy());sk.addColorStop(0,C('t'));sk.addColorStop(1,C('b'));g.fillStyle=sk;g.fillRect(0,0,W,hy()+2);
+ const gn=bm=='gon',dr=bm=='dream'||gn||bm=='neva',sk=g.createLinearGradient(0,0,0,hy());sk.addColorStop(0,C('t'));sk.addColorStop(1,C('b'));g.fillStyle=sk;g.fillRect(0,0,W,hy()+2);
  if(dr){g.fillStyle='#fff';for(let i=0;i<30;i++){g.globalAlpha=.5+.5*Math.sin(off*.05+i);g.fillRect((i*97)%W,(i*53)%(hy()*.9),2,2)}g.globalAlpha=1;}
  g.fillStyle=C('su');g.beginPath();g.arc(W*.72,hy()*.55,H*.05,0,7);g.fill();
  for(let i=0;i<3;i++){const cx=W*1.2-(off*.25+i*W*.45)%(W*1.2);g.globalAlpha=.85;txt('☁️',cx,hy()*(.3+.17*i),H*.06);g.globalAlpha=1}
  for(const[L,a,sp]of[['hl',.05,.3],['h2',.03,.8]]){g.fillStyle=C(L);g.beginPath();g.moveTo(0,hy());for(let x=0;x<=W+10;x+=10)g.lineTo(x,hy()-H*a*(1.3+Math.sin((x+off*sp)*.008)+.5*Math.sin((x+off*sp)*.021)));g.lineTo(W,hy());g.fill()}
- g.font=H*.09+'px serif';g.textAlign='center';g.fillText(w2?(bm?'👁️':'⛪'):gn?'📖':dr?'🏡':'🛋️',W/2,hy()-4);
+ g.font=H*.09+'px serif';g.textAlign='center';g.fillText(bm=='neva'?'🌉':w2?(bm?'👁️':'⛪'):gn?'📖':dr?'🏡':'🛋️',W/2,hy()-4);
  g.fillStyle=C('gr',0);g.fillRect(0,hy(),W,H);
- const bo=off%6;for(let z=84,i=Math.floor(off/6);z>-6;z-=6,i--){quad(z-bo,z-bo-6,-16,16,C('gr',i&1));quad(z-bo,z-bo-6,-1.5,1.5,C('rd',i&1))}
- scn();if(w2){const fg=g.createLinearGradient(0,hy()-H*.06,0,hy()+H*.2);fg.addColorStop(0,'rgba(200,190,120,0)');fg.addColorStop(.4,'rgba(200,190,120,.22)');fg.addColorStop(1,'rgba(200,190,120,0)');g.fillStyle=fg;g.fillRect(0,hy()-H*.06,W,H*.26)}
+ const bo=off%6,nvOn=nvWin();for(let z=84,i=Math.floor(off/6);z>-6;z-=6,i--){quad(z-bo,z-bo-6,-16,16,C('gr',i&1));if(nvOn)quad(z-bo,z-bo-6,-16,-1.65,i&1?'#2f6a9a':'#2a5a8a');quad(z-bo,z-bo-6,-1.5,1.5,C('rd',i&1))}
+ scn();if(nvOn){const q=P(8,-3);g.font=H*.07+'px serif';g.textAlign='center';g.fillText('⛵',q.x,q.y-H*.02);txt('НЕВА ←',q.x+W*.05,q.y+H*.03,Math.max(12,H*.025),'#cfe8ff')}if(w2){const fg=g.createLinearGradient(0,hy()-H*.06,0,hy()+H*.2);fg.addColorStop(0,'rgba(200,190,120,0)');fg.addColorStop(.4,'rgba(200,190,120,.22)');fg.addColorStop(1,'rgba(200,190,120,0)');g.fillStyle=fg;g.fillRect(0,hy()-H*.06,W,H*.26)}
  for(const l of[-.5,.5]){const a=Pq(84,l),b=Pq(-3.5,l);g.strokeStyle='rgba(255,255,255,.35)';g.lineWidth=2;g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke()}
  for(const l of[-1.5,1.5]){const a=Pq(84,l),b=Pq(-3.5,l);g.strokeStyle='#8a6a3a';g.lineWidth=4;g.beginPath();g.moveTo(a.x,a.y);g.lineTo(b.x,b.y);g.stroke()}
- const s=[...objs];if(bm=='rask')s.push({t:'rkb',z:rk.z,l:rk.l});s.sort((a,b)=>b.z-a.z);if(bm=='rask'&&rk.m>0)quad(0,30,rk.l-.5,rk.l+.5,'rgba(170,70,255,'+(.16+.1*Math.sin(off*.6))+')');if(bm=='bike')dbk();if(bm=='boss'){dob({t:'big',l:bk,z:18});if(bossAtkT<.42){const pulse=.35+.25*Math.sin(off*1.8);g.fillStyle='rgba(255,80,80,'+pulse+')';g.fillRect(0,hy()-H*.02,W,H*.02);txt(['ШТОЛЬЦ ГОТОВИТ АТАКУ','КОМБИНАЦИЯ!','ФИНАЛЬНЫЙ РЫВОК!'][bossPhase],W/2,hy()-H*.08,Math.max(14,H*.035),'#ffd0d0')}}if(bm=='dream2'&&d2b)dob({t:'big',l:bk,z:18,st:1});if(bm=='gon'){const p=P(18,bk);dgn(p.x,p.y,lw()*.7*p.t,gnx)}for(const o of s)if(o.z>=0)dob(o);dpl();drawPa();for(const o of s)if(o.z<0)dob(o);
+ const s=[...objs];if(bm=='rask')s.push({t:'rkb',z:rk.z,l:rk.l});if(bm=='dost')s.push({t:'dkb',z:dk.z,l:dk.l});s.sort((a,b)=>b.z-a.z);if(bm=='rask'&&rk.m>0)quad(0,30,rk.l-.5,rk.l+.5,'rgba(170,70,255,'+(.16+.1*Math.sin(off*.6))+')');if(bm=='dost'&&dk.m>0)quad(0,30,dk.l-.5,dk.l+.5,'rgba(255,200,40,'+(.16+.1*Math.sin(off*.6))+')');if(bm=='bike')dbk();if(bm=='boss'){dob({t:'big',l:bk,z:18});if(bossAtkT<.42){const pulse=.35+.25*Math.sin(off*1.8);g.fillStyle='rgba(255,80,80,'+pulse+')';g.fillRect(0,hy()-H*.02,W,H*.02);txt(['ШТОЛЬЦ ГОТОВИТ АТАКУ','КОМБИНАЦИЯ!','ФИНАЛЬНЫЙ РЫВОК!'][bossPhase],W/2,hy()-H*.08,Math.max(14,H*.035),'#ffd0d0')}}if(bm=='dream2'&&d2b)dob({t:'big',l:bk,z:18,st:1});if(bm=='gon'){const p=P(18,bk);dgn(p.x,p.y,lw()*.7*p.t,gnx)}for(const o of s)if(o.z>=0)dob(o);dpl();drawPa();for(const o of s)if(o.z<0)dob(o);
  g.restore();
- if(st=='play'){g.save();g.translate(0,SI.t);txt('⏸',W/2,34,22,'#fff');if(roll>0)txt('🤸 ×'+rollCount,W/2,62,15,'#ffe9b0');txt((sh?'🧥':'')+(mg>0?'🫖'+Math.ceil(mg):'')+(ds>0?'🛋️'+Math.ceil(ds):'')+(ax>0?'🪓'+(ax>100?'':Math.ceil(ax)):''),16+SI.l,64,20,'#fff','left');if(cb>=5)txt('×'+mult()+'  '+cb+' подряд',W-16-SI.r,60,16,'#ffe9b0','right');txt('❤'.repeat(Math.max(0,lives)),16+SI.l,34,26,'#ff6b81','left');txt(Math.floor(dist)+' м  🥟 '+pies,W-16-SI.r,34,22,'#fff','right');if(bm&&bm!='gon'&&bm!='rask'){g.fillStyle='rgba(255,255,255,.25)';g.fillRect(W*.2,48,W*.6,6);g.fillStyle='#ffe9b0';g.fillRect(W*.2,48,W*.6*bmT/bmD,6)}else if(bm=='gon'){for(let i=0;i<10;i++){g.fillStyle=i<gh?'#ff7ac8':'rgba(255,255,255,.25)';g.fillRect(W*.2+i*W*.06,46,W*.05,8)}txt('Гончаров '+gh+'/10',W/2,76,14)}else if(bm=='boss'){for(let i=0;i<3;i++){g.fillStyle=i<=bossPhase?'#ff6b6b':'rgba(255,255,255,.25)';g.fillRect(W*.2+i*W*.2,46,W*.16,8)}txt('Штольц — '+bossHp+'/5  •  фаза '+(bossPhase+1)+'/3',W/2,76,14)}else if(bm=='rask'){for(let i=0;i<5;i++){g.fillStyle=i<rk.h?'#b05cff':'rgba(255,255,255,.25)';g.fillRect(W*.2+i*W*.12,46,W*.1,8)}txt('Раскольников '+rk.h+'/5',W/2,76,14)}
+ if(st=='play'){g.save();g.translate(0,SI.t);txt('⏸',W/2,34,22,'#fff');if(rollCount>0)txt('🤸 ×'+rollCount,W/2,62,15,'#ffe9b0');txt((sh?'🧥':'')+(mg>0?'🫖'+Math.ceil(mg):'')+(ds>0?'🛋️'+Math.ceil(ds):'')+(ax>0?'🪓'+(ax>100?'':Math.ceil(ax)):''),16+SI.l,64,20,'#fff','left');if(cb>=5)txt('×'+mult()+'  '+cb+' подряд',W-16-SI.r,60,16,'#ffe9b0','right');txt('❤'.repeat(Math.max(0,lives)),16+SI.l,34,26,'#ff6b81','left');txt(Math.floor(dist)+' м  🥟 '+pies,W-16-SI.r,34,22,'#fff','right');if(bm&&bm!='gon'&&bm!='rask'){g.fillStyle='rgba(255,255,255,.25)';g.fillRect(W*.2,48,W*.6,6);g.fillStyle='#ffe9b0';g.fillRect(W*.2,48,W*.6*bmT/bmD,6)}else if(bm=='gon'){for(let i=0;i<10;i++){g.fillStyle=i<gh?'#ff7ac8':'rgba(255,255,255,.25)';g.fillRect(W*.2+i*W*.06,46,W*.05,8)}txt('Гончаров '+gh+'/10',W/2,76,14)}else if(bm=='boss'){for(let i=0;i<3;i++){g.fillStyle=i<=bossPhase?'#ff6b6b':'rgba(255,255,255,.25)';g.fillRect(W*.2+i*W*.2,46,W*.16,8)}txt('Штольц — '+bossHp+'/5  •  фаза '+(bossPhase+1)+'/3',W/2,76,14)}else if(bm=='rask'){for(let i=0;i<5;i++){g.fillStyle=i<rk.h?'#b05cff':'rgba(255,255,255,.25)';g.fillRect(W*.2+i*W*.12,46,W*.1,8)}txt('Раскольников '+rk.h+'/5',W/2,76,14)}
   if(msgT>0)txt(msg,W/2,H*.2,Math.min(26,W/16),'#ffe9b0');g.restore()}
  else ui();}
 /* ===== НАВИГАЦИЯ ДЛЯ ТЕЛЕФОНОВ ===== */
@@ -164,15 +164,16 @@ function menuUI(f,cx,top,bot){
   Bx(['🪓 Босс',wl?'🔒 закрыт':'Раскольников (настоящий)'],x,yy,wd,u,()=>{if(V.gw){w2=1;w2t=0;go();sb('rask')}else tq.push('🔒 Победи Гончарова в Мире 1')},wl?'#3a3a44':'#4a2a6a');yy+=u+gap;
   Bx('📖 Сюжет',x,yy,hw,u,()=>{st='story';page=0});Bx('🎭 Герои',x+hw+gap,yy,hw,u,()=>st='heroes');yy+=u+gap;
   Bx('👘 Скины',x,yy,hw,u,()=>{st='skins'});Bx('🛒 Магазин',x+hw+gap,yy,hw,u,openShop);yy+=u+gap;
+  Bx(['📜 Финал Мира 2',V.rw?'Достоевский':'🔒 победи Раскольникова'],x,yy,wd,u,()=>{if(V.rw){w2=1;w2t=0;go();sb('dost')}else tq.push('🔒 Победи Раскольникова')},V.rw?'#6a4a10':'#3a3a44');yy+=u+gap;
   Bx('🏆 Ачивки '+Object.keys(V.a).length+'/'+AC.length,x,yy,wd,u,()=>st='ach');return yy+u};
  if(!land){
-  const th=Math.min(150,H*.2),u=Math.max(44,Math.min(60,(bot-top-th-24-5*gap-30)/6.35)),wd=Math.min(W-32-SI.l-SI.r,400),x=cx-wd/2;
-  scr(top,bot,th+8+u*6.35+5*gap+50,()=>{txt('🛋️',cx,top+th*.3,th*.3);txt('Обломов',cx,top+th*.62,Math.min(f*1.2,th*.3),'#ffe9b0');txt('Беги, Илья Ильич!',cx,top+th*.84,Math.min(f*.5,th*.13),'#d9a441');txt('v'+GAME_VERSION,cx,top+th*1.01,Math.min(f*.34,13),'#aaa');
+  const th=Math.min(150,H*.2),u=Math.max(44,Math.min(60,(bot-top-th-24-6*gap-30)/7.35)),wd=Math.min(W-32-SI.l-SI.r,400),x=cx-wd/2;
+  scr(top,bot,th+8+u*7.35+6*gap+50,()=>{txt('🛋️',cx,top+th*.3,th*.3);txt('Обломов',cx,top+th*.62,Math.min(f*1.2,th*.3),'#ffe9b0');txt('Беги, Илья Ильич!',cx,top+th*.84,Math.min(f*.5,th*.13),'#d9a441');txt('v'+GAME_VERSION,cx,top+th*1.01,Math.min(f*.34,13),'#aaa');
    const ye=rows(x,wd,top+th+8,u);txt(rec,cx,ye+gap+16,Math.min(f*.45,16),'#aaa')})}
  else{
   const f2=Math.min(40,H/9,W/16),lx=(SI.l+W/2)/2,ly=H/2;
   txt('🛋️',lx,ly-f2*1.1,f2*1.4);txt('Обломов',lx,ly+f2*.4,f2*1.3,'#ffe9b0');txt('Беги, Илья Ильич!',lx,ly+f2*1.2,f2*.5,'#d9a441');txt('v'+GAME_VERSION,lx,ly+f2*1.65,f2*.34,'#aaa');txt(rec,lx,ly+f2*2.1,f2*.42,'#aaa');
-  const wd=Math.min((W-SI.l-SI.r)*.45,380),px0=(W/2+W-SI.r)/2,u=Math.max(40,Math.min(54,(bot-top-16-5*gap)/6.35)),ch=u*6.35+5*gap+16;
+  const wd=Math.min((W-SI.l-SI.r)*.45,380),px0=(W/2+W-SI.r)/2,u=Math.max(40,Math.min(54,(bot-top-16-6*gap)/7.35)),ch=u*7.35+6*gap+16;
   scr(top,bot,ch,()=>rows(px0-wd/2,wd,top+Math.max(8,(bot-top-ch)/2+8),u))}}
 function storyUI(cx){
  const c=STORY[page],lk=c.a&&!V.a[c.a],A=lk&&AC.find(a=>a[0]==c.a);
@@ -261,16 +262,19 @@ const STORY=[
 {t:'Мир 2. Тварь ли я дрожащая?',a:'a22',l:['Раскольников спорит сам с собой.','Илья не спорит — он бежит. Иногда','побег тоже становится ответом. Вопрос лишь','в том, чей это ответ: героя или автора?']},
 {t:'Мир 2. Настоящий',a:'a31',l:['Все Раскольниковы на Сенной — подделки,','тени одной идеи. Настоящий — один.','Он не бежит, а летит, и топор у него','фиолетовый. Чтобы остановить его, нужен свой.']},
 {t:'Мир 2. Последняя улица',l:['Туман сгущается, а две книги начинают','переплетаться. Петербург Достоевского','видит вдали белые страницы Гончарова.','Похоже, кто-то снова написал продолжение.']},
-{t:'Мир 2. Автор',a:'a24',l:['На каждом углу появляется один и тот же','бородатый человек. «Ты не мой герой, —','вздыхает Фёдор Михайлович, — но с тобой','в романе становится неожиданно светлее».']}];
-const HEROES=['🛌 Илья Ильич — мечтает лежать','✉️ Письма — перепрыгни','📢 «СРОЧНО!» — проскользни снизу','🎩 Штольц — обойди по соседней дорожке','🥟 Пирожок из Обломовки — +10 очков','🚲 Андрей и Ольга — бонус каждые 1000 м','🧥 Халат Захара — щит от удара','🫖 Самовар — притягивает пирожки','💗 Розовое — проходи насквозь (боссы)','📚 Гончаров — бей, пока розовый','🛋️ Диван — рывок и цель','🪓 Фиолетовый топор — присед становится ударом (Мир 2)','🔮 Раскольников (настоящий) — бей его, когда он летит'];
+{t:'Мир 2. Автор',a:'a24',l:['На каждом углу появляется один и тот же','бородатый человек. «Ты не мой герой, —','вздыхает Фёдор Михайлович, — но с тобой','в романе становится неожиданно светлее».']},
+{t:'Мир 2. Нева',a:'a49',l:['Слева открывается Нева — чёрная и','блестящая, как чернильница. Лодка сама','подбирает Илью. Река несёт его мимо','мостов, льдин и жёлтых барж к финалу.']},
+{t:'Мир 2. Топор и совесть',a:'a45',l:['Достоевский не бьёт — он спрашивает.','Каждый его рывок — вопрос совести,','и ответить на него можно только топором.','Жёлтое же не ломается: это чужая правда.']},
+{t:'Мир 2. Каторга окончена',a:'a46',l:['Двенадцатый удар — и автор выпускает','перо. «Ты не мой герой, — шепчет он, —','но я рад, что ты не лёг на диван».','За страницей мерцает дорога домой.']}];
+const HEROES=['🛌 Илья Ильич — мечтает лежать','✉️ Письма — перепрыгни','📢 «СРОЧНО!» — проскользни снизу','🎩 Штольц — обойди по соседней дорожке','🥟 Пирожок из Обломовки — +10 очков','🚲 Андрей и Ольга — бонус каждые 1000 м','🧥 Халат Захара — щит от удара','🫖 Самовар — притягивает пирожки','💗 Розовое — проходи насквозь (боссы)','📚 Гончаров — бей, пока розовый','🛋️ Диван — рывок и цель','🪓 Фиолетовый топор — присед становится ударом (Мир 2)','🔮 Раскольников (настоящий) — бей его, когда он летит','🟡 Жёлтое — топором не сломать','🌊 Нева — слева на 3500–3900 м, выход в Мир 2','📜 Достоевский — отбивай рывок топором (12 ударов)'];
 function go(){if(w2t){w2=0;w2t=0}reset();if(w2){spd=16;nextB=800;ach('a18')}st='play';ach('a1')}
 function act(a){if(st!='play')return;
- if(a=='l')lane=Math.max(-1,lane-1);if(a=='r')lane=Math.min(1,lane+1);
- if(a=='u'&&jy==0&&!roll){jy=.001;jv=11;slide=0}
+ if(a=='l'&&lane==-1&&nvWin()){nvStart();return}if(a=='l')lane=Math.max(-1,lane-1);if(a=='r')lane=Math.min(1,lane+1);
+ if(a=='u'&&(jy==0&&!roll||roll>0)){if(roll>0){roll=0;rollT=0;rollGap=1.2}jy=.001;jv=11;slide=0}
  if(a=='d'){
    if(ax>0)strike();
    else if(jy>0&&roll<=0){
-     roll=.62;rollT=.62;rollCount++;rollBest=Math.max(rollBest,rollCount);
+     roll=.62;rollT=.62;rollCount=rollGap>0?rollCount+1:1;rollGap=0;rollTotal++;rollBest=Math.max(rollBest,rollCount);
      jy=0;jv=0;slide=0;pts+=5;
      ach('a35');if(rollCount>=3)ach('a37');if(rollBest>=5)ach('a38');if(rollTotal>=25)ach('a40');
      msg='Кувырок!';msgT=.65;
@@ -297,7 +301,7 @@ addEventListener('pointerup',e=>{if(sx==null)return;
 addEventListener('pointercancel',()=>{sx=null;drag=false});
 const SK=[{n:'Классический',c:'#7a2f3b',p:0},{n:'Синий халат',c:'#2f4a7a',p:80},{n:'Зелёный халат',c:'#2f6a45',p:120},{n:'С ночным колпаком',c:'#7a2f3b',p:200,cap:'#d94a4a'},{n:'Золотой',c:'#b8892e',d:'#fff',p:300},{n:'Белый с колпаком',c:'#e8e4d8',d:'#7a2f3b',p:400,cap:'#e8e4d8'},
 {n:'Захар',c:'#5b6b4a',d:'#c9b27a',h:'#8a8a8a',sb:1,p:500},{n:'Агафья Пшеницына',c:'#8a6a9a',d:'#fff',dr:1,cap:'#fff',h:'#6a4a2a',p:650,ac:'a6'},{n:'Ольга',c:'#d9a0b8',d:'#fff',dr:1,hat:'#f5e6c8',h:'#6a4a2a',p:600,ac:'a7',tr:'🌸'},{n:'Андрей Штольц',c:'#2f3640',d:'#fff',top:1,h:'#c9a24a',p:700,ac:'a12'},{n:'Розовый халат',c:'#ff7ac8',d:'#fff',p:350,ac:'a16'},{n:'Илья-страница',c:'#efe3c6',d:'#222',h:'#222',p:450,ac:'a17'},{n:'Святой Илья',c:'#f4f0e0',d:'#d9a441',halo:1,p:800,ac:'a15'},{n:'Гончаров',c:'#f4f0e0',d:'#d9a441',halo:1,br:1,h:'#ddd',p:1000,ac:'a14',tr:'✒️'},{n:'Князь Мышкин',c:'#cfc8b0',d:'#6a4a2a',h:'#c9a24a',p:900,ac:'a19'},{n:'Раскольников',c:'#3a3030',d:'#8a1a1a',top:1,h:'#4a3020',p:1100,ac:'a22'},{n:'Достоевский',c:'#2a2a30',d:'#fff',br:1,h:'#6a5a4a',p:1500,ac:'a24',tr:'🕯️'},
-{n:'Пурпурный халат',c:'#6a3fa0',d:'#e8d9b0',h:'#4a3326',p:550,ac:'a29',tr:'🪓'},{n:'Серый из толпы',c:'#7a7a7a',d:'#444',h:'#555',p:300,ac:'a28'},{n:'Беглец с топором',c:'#4a3a2a',d:'#d9a441',cap:'#3a5a8a',p:450,ac:'a33'},{n:'ALT + F4',c:'#101410',d:'#33ff66',h:'#101410',p:600,ac:'a34',tr:'⌨️'},{n:'Расколотый',c:'#241a30',sp:'#6a35b8',d:'#f0e0ff',top:1,h:'#111',p:1200,ac:'a32',tr:'💜'}];
+{n:'Пурпурный халат',c:'#6a3fa0',d:'#e8d9b0',h:'#4a3326',p:550,ac:'a29',tr:'🪓'},{n:'Серый из толпы',c:'#7a7a7a',d:'#444',h:'#555',p:300,ac:'a28'},{n:'Беглец с топором',c:'#4a3a2a',d:'#d9a441',cap:'#3a5a8a',p:450,ac:'a33'},{n:'ALT + F4',c:'#101410',d:'#33ff66',h:'#101410',p:600,ac:'a34',tr:'⌨️'},{n:'Расколотый',c:'#241a30',sp:'#6a35b8',d:'#f0e0ff',top:1,h:'#111',p:1200,ac:'a32',tr:'💜'},{n:'Каторжанин',c:'#4a4a4a',d:'#d9a441',h:'#333',cap:'#555',p:900,ac:'a46',tr:'⛓️'},{n:'Лодочник',c:'#2f5a7a',d:'#e8f0ff',cap:'#2a3a5a',p:700,ac:'a50',tr:'💧'}];
 const PWI=['🧥','🫖','🛋️'],PWM=['Халат-щит!','Самовар: пирожки липнут!','Диван-рывок!'];
 const PH=[{t:'#4aa3e8',b:'#cdeeff',gr:['#5fae4a','#58a443'],rd:['#d9b77a','#cfab6c'],hl:'#8fc09a',h2:'#6aa66f',su:'#fff4b0'},{t:'#e9855a',b:'#ffd59a',gr:['#6a9a3e','#628f38'],rd:['#c9a06a','#be9460'],hl:'#9a9a62',h2:'#7a8650',su:'#ff8a3c'},{t:'#2a2f6a',b:'#c46a8a',gr:['#2f5a3a','#2b5236'],rd:['#7a6a60','#706058'],hl:'#3a4a6a',h2:'#2f3b58',su:'#e8ecff'}];
 const PD={t:'#3d3f33',b:'#b9a45a',gr:['#4a4a40','#44443a'],rd:['#6f6a5e','#665f54'],hl:'#5a5a48',h2:'#46463a',su:'#d8d29a'};
@@ -305,13 +309,15 @@ const RKP={t:'#120a24',b:'#5a2a7a',gr:['#241638','#2a1a40'],rd:['#8a7aa8','#7e6e
 const DR2={t:'#2a0a14',b:'#7a1f3a',gr:['#3a1428','#43182f'],rd:['#a85a6a','#9a4e5e'],hl:'#5a1a3a',h2:'#401030',su:'#ff5a5a'};
 const BKP={t:'#07071a',b:'#4a2f6a',gr:['#14122a','#1a1736'],rd:['#e8dcc0','#ddd0b0'],hl:'#2a2050',h2:'#1e1840',su:'#ffd34a'};
 const DR={t:'#1a1445',b:'#d9a0e0',gr:['#6a5aa0','#6050a0'],rd:['#b59ae0','#a88ad5'],hl:'#8a6ab0',h2:'#7a5aa0',su:'#fff'};
+const NVP={t:'#0a1430',b:'#2c4a7a',gr:['#2a3a4a','#26364a'],rd:['#2a5a8a','#2f6a9a'],hl:'#1a2a4a',h2:'#14203a',su:'#e8f0ff'};
+const DKP={t:'#1a1208',b:'#6a4a10',gr:['#2a2010','#33260f'],rd:['#8a7440','#7c6838'],hl:'#3a2a10',h2:'#2a1d0c',su:'#ffd34a'};
 function mix(a,b,t){const A=[1,3,5].map(i=>parseInt(a.substr(i,2),16)),B=[1,3,5].map(i=>parseInt(b.substr(i,2),16));return'rgb('+A.map((v,i)=>v+(B[i]-v)*t|0)+')'}
-function C(k,i){if(w2){const v=(bm=='dream2'?DR2:bm=='rask'?RKP:PD)[k];return i==null?v:v[i]}if(bm=='dream'||bm=='gon'){const v=(bm=='gon'?BKP:DR)[k];return i==null?v:v[i]}const q=dist/800,n=Math.max(0,Math.floor(q)),a=PH[n%3],b=PH[(n+1)%3],t=Math.max(0,(q%1-.6)/.4);return mix(i==null?a[k]:a[k][i],i==null?b[k]:b[k][i],t)}
+function C(k,i){if(bm=='neva'){const v=NVP[k];return i==null?v:v[i]}if(w2){const v=(bm=='dream2'?DR2:bm=='rask'?RKP:bm=='dost'?DKP:PD)[k];return i==null?v:v[i]}if(bm=='dream'||bm=='gon'){const v=(bm=='gon'?BKP:DR)[k];return i==null?v:v[i]}const q=dist/800,n=Math.max(0,Math.floor(q)),a=PH[n%3],b=PH[(n+1)%3],t=Math.max(0,(q%1-.6)/.4);return mix(i==null?a[k]:a[k][i],i==null?b[k]:b[k][i],t)}
 function fx(x,y,col,n,e){for(let i=0;i<n;i++)pa.push({x,y,vx:(Math.random()-.5)*80,vy:-Math.random()*80,t:.5,c:col,e})}
 function drawPa(){for(const p of pa){g.globalAlpha=Math.max(0,Math.min(1,p.t*2));if(p.e){g.font='16px serif';g.textAlign='center';g.fillText(p.e,p.x,p.y)}else{g.fillStyle=p.c;g.fillRect(p.x,p.y,3,3)}}g.globalAlpha=1}
 function scn(){const dr=bm=='dream',gn=bm=='gon';for(let k=12;k>=0;k--){const zz=6*k-off%6,i=Math.floor(off/6)+k;for(const sd of[-1,1]){const h=(i*7+(sd>0?3:0))%11,p=P(zz,sd*(2.3+(h%3)*.7)),u=lw()*.7*p.t,x=p.x,y=p.y;
  if(w2){const bh=u*(2.2+h%4*.6),bw=u*.9;g.fillStyle=['#b59a4a','#9a8a5a','#a87a52','#8a8a6a'][h%4];g.fillRect(x-bw/2,y-bh,bw,bh);g.fillStyle='#2a2a22';g.fillRect(x-bw/2,y-bh-u*.1,bw,u*.1);g.fillStyle=(h+i)%3?'#e8c870':'#2a2a22';for(let r=0;r<Math.floor(bh/(u*.6));r++)for(let q=0;q<2;q++)g.fillRect(x-bw*.32+q*bw*.4,y-bh+u*.2+r*u*.6,bw*.22,u*.3);if(h%3==0){g.font=u*.5+'px serif';g.textAlign='center';g.fillText('🏮',x+(sd>0?-1:1)*bw*.6,y-u*.9)}continue}
- if(gn){if(h<7){const fy=y-u*1.6-Math.sin(off*.05+i)*u*.2;g.fillStyle='#efe3c6';g.fillRect(x-u*.3,fy,u*.6,u*.8);g.fillStyle='#8a7a5a';for(let j=0;j<4;j++)g.fillRect(x-u*.22,fy+u*.12+j*u*.17,u*.44,u*.03)}else{g.font=u*.5+'px serif';g.textAlign='center';g.fillText(h%2?'📖':'✒️',x,y-u*1.3)}continue}
+ if(bm=='neva'){if(h<5){g.fillStyle='#222';g.fillRect(x-u*.04,y-u*1.3,u*.08,u*1.3);g.fillStyle='rgba(255,210,90,.35)';g.beginPath();g.arc(x,y-u*1.4,u*.45,0,7);g.fill();g.fillStyle='#ffd34a';g.beginPath();g.arc(x,y-u*1.4,u*.14,0,7);g.fill()}else if(h<8){g.fillStyle='#e8f4ff';g.beginPath();g.ellipse(x,y-u*.1,u*.5,u*.16,0,0,7);g.fill()}continue}if(gn){if(h<7){const fy=y-u*1.6-Math.sin(off*.05+i)*u*.2;g.fillStyle='#efe3c6';g.fillRect(x-u*.3,fy,u*.6,u*.8);g.fillStyle='#8a7a5a';for(let j=0;j<4;j++)g.fillRect(x-u*.22,fy+u*.12+j*u*.17,u*.44,u*.03)}else{g.font=u*.5+'px serif';g.textAlign='center';g.fillText(h%2?'📖':'✒️',x,y-u*1.3)}continue}
  if(h<5){g.fillStyle='#6b4a2a';g.fillRect(x-u*.08,y-u*.9,u*.16,u*.9);g.fillStyle=dr?'#e58bb3':h%2?'#2f7a3a':'#3a8f46';g.beginPath();g.arc(x,y-u*1.2,u*.55,0,7);g.fill()}
  else if(h<7){g.fillStyle='#9b7a4a';for(let j=0;j<3;j++)g.fillRect(x+j*u*.35-u*.5,y-u*.5,u*.06,u*.5);g.fillRect(x-u*.5,y-u*.4,u*.75,u*.05)}
  else if(h<9){g.fillStyle='#d9b24a';g.beginPath();g.ellipse(x,y-u*.25,u*.4,u*.28,0,0,7);g.fill()}
@@ -322,7 +328,7 @@ const AC=[
  ['a9','Модник','купи халат','Обыватель'],['a10','Без царапин','1000 м без ударов','Читатель'],['a11','На волосок','10 «ловко» за забег','Читатель'],['a12','Штольц ушёл','пройди босса','Любитель'],
  ['a13','Комбо ×5','40 пирожков подряд','Читатель'],['a14','Победил автора','победи Гончарова','Классик'],['a15','Идеальный читатель','Гончаров без урона','Классик'],['a16','Розовая мечта','20 розовых объектов','Любитель'],
  ['a17','Книжный бог','встреть Гончарова','Обыватель'],['a18','Чернильное пятно','войди в Мир 2','Любитель'],['a19','Сенная площадь','500 м в Мире 2','Любитель'],['a20','Кошмар Обломовки','пройди Сон 2','Читатель'],
- ['a21','Штольц вернулся','победи Штольца в Сне 2','Читатель'],['a22','Тварь дрожащая','1500 м в Мире 2','Читатель'],['a23','Спокойная совесть','Сон 2 без ударов','Классик'],['a24','Фёдор Михайлович','3000 м в Мире 2','Классик'],
+ ['a21','Штольц вернулся','победи Штольца в Сне 2','Читатель'],['a22','Тварь дрожащая','1500 м в Мире 2','Читатель'],['a23','Спокойная совесть','Сон 2 без ударов','Классик'],['a24','Фёдор Михайлович','3000 м в Мире 2','Классик'],['a45','Рука судьбы','отбей рывок Достоевского','Читатель'],['a46','Каторга окончена','победи Достоевского','Классик'],['a47','Чистая совесть','Достоевский без урона','Классик'],['a48','Свет сквозь жёлтое','5 розовых за бой с Достоевским','Классик'],['a49','Нырнул','попади на Неву','Читатель'],['a50','Невский проспект','пройди Неву до конца','Классик'],['a51','Не промок','Нева без ударов','Классик'],
  ['a25','Листы 1','перейди из Мира 1 в Мир 2','Любитель'],['a26','Возрождение к истокам','проиграй 1 раз','Обыватель'],['a27','Тотальная лень','проиграй 10 раз','Любитель'],['a28','Один из многих','проиграй 100 раз','Читатель'],
  ['a29','Топор','впервые получи топор','Любитель'],['a30','Как?!','ударь Штольца топором','Читатель'],['a31','Плохое время','встреть Раскольникова','Читатель'],['a32','Раскололся','победи Раскольникова','Классик'],
  ['a33','Побег с оружием','выйди в меню во время схватки с боссом, держа топор','Читатель'],['a34','ALT + F4','выйди в меню во время финального босса мира','Классик'],
@@ -338,14 +344,15 @@ function addPie(n){pies+=n;V.w+=n;V.tp+=n;if(bm)bp+=n;cb++;const m=mult();pts+=1
 function sb(fb){
  bm=fb||(w2?(wb++%2?'rask':'dream2'):['dream','bike','boss','gon'][bn%4]);
  d2b=0;d2h=hurt;bn++;nextB+=1000;bsp=spd;
- spd={dream2:20,dream:18,bike:21,boss:16,gon:17,rask:17}[bm]||spd;
+ spd={dost:18,neva:17,dream2:20,dream:18,bike:21,boss:16,gon:17,rask:17}[bm]||spd;
  bmD=bmT=bm=='dream2'?24:bm=='bike'?16:bm=='dream'?14:bm=='boss'?15:1e9;
  bp=0;objs=[];bk=0;bx=0;bxT=0;bt2=0;
  if(bm=='bike'){bikeDist=0;bikeDodges=0;bikeNearMiss=0;bx=0;bk=0;bxT=.35;bt2=.15;msg='Догони велосипед Андрея и Ольги!';msgT=3;}
 
  if(bm=='gon'){gh=10;gt=2;gc=3;gm=0;gnx=false;gh0=hurt;ach('a17')}
+ if(bm=='dost'){dk={h:12,a:3,at:0,n:2,m:0,t:0,z:18,l:0,tl:0,f:0,x:0,g:0,r:0,sp:0,up:0};dkNext();ax=999;ht=0;dkH0=hurt;dkP=0;}
  if(bm=='rask'){rk={h:5,m:0,t:2.2,z:18,l:0,tl:0,up:0,f:0,x:0,s:1,a:0,fl:0};ax=0;ht=0;ach('a31')}
- msg={rask:'РАСКОЛЬНИКОВ! Подбери фиолетовый топор!',dream2:'Сон Обломова 2: кошмар Обломовки!',dream:'Сон Обломова: Обломовка!',bike:'Догони велосипед Андрея и Ольги!',boss:'Штольц требует дел! ВРЕЗАЙСЯ В РОЗОВОЕ!',gon:'ГОНЧАРОВ! Бей, пока он розовый!'}[bm];msgT=3}
+ msg={dost:'ДОСТОЕВСКИЙ! Отбивай рывок топором ↓',rask:'РАСКОЛЬНИКОВ! Подбери фиолетовый топор!',dream2:'Сон Обломова 2: кошмар Обломовки!',dream:'Сон Обломова: Обломовка!',bike:'Догони велосипед Андрея и Ольги!',boss:'Штольц требует дел! ВРЕЗАЙСЯ В РОЗОВОЕ!',gon:'ГОНЧАРОВ! Бей, пока он розовый!'}[bm];msgT=3}
 function d2(dt){if(bmT<=10&&!d2b){d2b=1;bk=0;bx=0;bxT=0;bt2=1;objs=objs.filter(o=>o.t=='pie');objs.push({t:'axp',l:Math.floor(Math.random()*3)-1,z:30});msg='ШТОЛЬЦ ВЕРНУЛСЯ! С двойным портфелем!';msgT=2.5}
  if(!d2b){if(bt2<=0){bt2=.4;const k=Math.floor(Math.random()*3)-1,q=Math.random();objs.push({t:'pie',l:k,z:45,g:Math.random()<.2});objs.push({t:'pie',l:k,z:48,y:1});
   if(q<.55){const a=Math.floor(Math.random()*3)-1;objs.push({t:q<.28?'low':'high',l:a,z:45});if(q<.15)objs.push({t:'big',l:a<=0?a+1:a-1,z:45,sw:1})}}}
@@ -355,7 +362,7 @@ function d2(dt){if(bmT<=10&&!d2b){d2b=1;bk=0;bx=0;bxT=0;bt2=1;objs=objs.filter(o
 function bon(dt,v){
  const speed=Number.isFinite(v)?v:spd;
  bmT-=dt;bt2-=dt;if(bm=='dream2'){d2(dt);if(bmT<=0)eb();return}
- if(bm=='rask'){rku(dt);return}
+ if(bm=='rask'){rku(dt);return}if(bm=='neva'){nvu(dt,speed);return}if(bm=='dost'){dku(dt);return}
  if(bm=='gon'){bxT-=dt;if(bxT<=0){bxT=1.1;bx=Math.max(-1,Math.min(1,Math.round(px)+(Math.random()<.4?(Math.random()<.5?-1:1):0)))}bk+=(bx-bk)*Math.min(1,dt*3);gt-=dt;gc-=dt;
   const ph=gh>6?0:gh>3?1:2;
   if(gt<=0){gt=[.8,.62,.45][ph];const q=Math.random();objs.push({t:q<.35?'low':q<.65?'high':'big',l:Math.random()<.6?Math.round(px):Math.floor(Math.random()*3)-1,z:24,pk:Math.random()<.28})}
@@ -389,10 +396,11 @@ function bon(dt,v){
  }
  else if(bt2<=0){bt2=.35;const k=Math.floor(Math.random()*3)-1;objs.push({t:'pie',l:k,z:45,g:Math.random()<.2});objs.push({t:'pie',l:k,z:48,y:1});if(Math.random()<.4)objs.push({t:'pie',l:-k||1,z:45})}
  if(bmT<=0)eb()}
-function eb(){if(bm=='boss'&&bossHp>0){msg='Штольц устоял! Врежься в розовые препятствия.';msgT=2.5;bm=null;spd=bsp;spawnT=22;objs=[];return}if(bm=='dream2'){ach('a20');ach('a21');if(hurt==d2h)ach('a23');if(lives<5)lives++;addPie(20);msg='Штольц снова ушёл! +20 🥟 +1 ❤';msgT=3;bm=null;d2b=0;spd=bsp;spawnT=22;objs=[];return}const d=bm=='dream',b=bm=='boss';ach(d?'a6':b?'a12':'a7');if(bm=='bike'&&bikeDist>=3000)ach('a41');if(bm=='bike'&&bikeDodges>=12)ach('a42');if(b&&bossPhase>=2)ach('a43');if(b&&bossRush>=3)ach('a44');if(bp>=15)ach('a8');if(d){if(lives<5)lives++;msg='Проснулся! +1 ❤'}else if(b){addPie(15);msg='Штольц ушёл! +15 🥟'}else{addPie(10);msg='Ольга угостила: +10 🥟'}msgT=2.5;bm=null;spd=bsp;spawnT=22;objs=[]}
+function eb(){if(bm=='boss'&&bossHp>0){msg='Штольц устоял! Врежься в розовые препятствия.';msgT=2.5;bm=null;spd=bsp;spawnT=22;objs=[];return}if(bm=='dream2'){ach('a20');ach('a21');if(hurt==d2h)ach('a23');if(lives<5)lives++;addPie(20);msg='Штольц снова ушёл! +20 🥟 +1 ❤';msgT=3;bm=null;d2b=0;spd=bsp;spawnT=22;objs=[];return}const d=bm=='dream',b=bm=='boss';ach(d?'a6':b?'a12':'a7');if(bm=='bike'&&bikeDist>=250)ach('a41');if(bm=='bike'&&bikeDodges>=12)ach('a42');if(b&&bossPhase>=2)ach('a43');if(b&&bossRush>=3)ach('a44');if(bp>=15)ach('a8');if(d){if(lives<5)lives++;msg='Проснулся! +1 ❤'}else if(b){addPie(15);msg='Штольц ушёл! +15 🥟'}else{addPie(10);msg='Ольга угостила: +10 🥟'}msgT=2.5;bm=null;spd=bsp;spawnT=22;objs=[]}
 function gw(){ach('a14');if(hurt==gh0)ach('a15');addPie(50);msg='Гончаров побеждён! +50 🥟';msgT=3.5;bm=null;spd=bsp;spawnT=22;objs=[];V.gw=(V.gw||0)+1;sv()}
-function dob(o){const p=P(o.z,o.l),u=lw()*.7*p.t;if(o.t=='rkb'){drk(p.x,p.y,u,rk.m,rk.up,rk.f);return}if(o.pk){g.fillStyle='rgba(255,90,190,.45)';g.beginPath();g.ellipse(p.x,p.y-u*.8,u*.8,u*1.1,0,0,7);g.fill()}
- if(o.t=='god')dgn(p.x,p.y,u,o.pk);else dob0(o);
+function dob(o){const p=P(o.z,o.l),u=lw()*.7*p.t;if(o.t=='rkb'){drk(p.x,p.y,u,rk.m,rk.up,rk.f);return}if(o.t=='dkb'){ddk(p.x,p.y,u,dk.m,dk.up,dk.f);return}if(o.yl){g.fillStyle='rgba(255,210,50,.45)';g.beginPath();g.ellipse(p.x,p.y-u*.8,u*.8,u*1.1,0,0,7);g.fill()}if(o.pk){g.fillStyle='rgba(255,90,190,.45)';g.beginPath();g.ellipse(p.x,p.y-u*.8,u*.8,u*1.1,0,0,7);g.fill()}
+ if(o.t=='god')dgn(p.x,p.y,u,o.pk);else if(bm=='neva'&&o.t!='pie'&&o.t!='pw'&&o.t!='axp')nvOb(o,p.x,p.y,u);else dob0(o);
+ if(o.yl){g.fillStyle='rgba(255,220,60,.3)';g.beginPath();g.ellipse(p.x,p.y-u*.8,u*.7,u,0,0,7);g.fill()}
  if(o.pk){g.fillStyle='rgba(255,120,210,.35)';g.beginPath();g.ellipse(p.x,p.y-u*.8,u*.7,u*1,0,0,7);g.fill()}}
 function dgn(x,y,u,pk){g.fillStyle=pk?'rgba(255,90,190,.35)':'rgba(255,215,90,.3)';g.beginPath();g.ellipse(x,y-u*1.2,u*.9,u*1.3,0,0,7);g.fill();
  g.strokeStyle=pk?'#ff2fa0':'#ffd34a';g.lineWidth=Math.max(2,u*.06);g.beginPath();g.ellipse(x,y-u*2.05,u*.28,u*.08,0,0,7);g.stroke();
@@ -402,6 +410,45 @@ function dgn(x,y,u,pk){g.fillStyle=pk?'rgba(255,90,190,.35)':'rgba(255,215,90,.3
  g.fillStyle='#222';g.fillRect(x-u*.14,y-u*1.8,u*.1,u*.03);g.fillRect(x+u*.04,y-u*1.8,u*.1,u*.03);
  g.font=u*.5+'px serif';g.textAlign='center';g.fillText('✒️',x+u*.5,y-u*.9);txt('ГОНЧАРОВ',x,y-u*2.35,Math.max(10,u*.2),pk?'#ff9ad6':'#ffe9b0')}
 function dbk(){const p=P(18,bk),u=lw()*.7*p.t,x=p.x,y=p.y;g.textAlign='center';g.font=u*1.3+'px serif';g.fillText('🚲',x,y-u*.1);g.font=u*.55+'px serif';g.fillText('🎩',x-u*.22,y-u);g.fillText('👒',x+u*.22,y-u*.95);txt('Андрей и Ольга',x,y-u*1.6,Math.max(10,u*.28))}
+
+/* ===== НЕВА (подэтаж) И ДОСТОЕВСКИЙ (финал Мира 2) ===== */
+function nvWin(){const q=dist%4000;return !w2&&!bm&&q>=3500&&q<3900}
+function nvStart(){bsp=spd;spd=17;bm='neva';nvD=0;nvS=-1;nvT=1;nvP=3;nvW=0;nvH=hurt;objs=[];bk=0;ax=0;bmD=bmT=1e9;msg='НЕВА! Подэтаж: держись на воде';msgT=3;shake=.4;ach('a49')}
+function nvu(dt,v){nvD+=v*dt;const S=nvD<350?0:nvD<750?1:nvD<1150?2:3;
+ if(S!==nvS){nvS=S;msg=['Течение сносит лодку','Льдины и баржи. Жёлтое топором не сломать','Разводные мосты: прыгай и катись','Ночная Нева: всё сразу'][S];msgT=2.2;if(S==1||S==3)objs.push({t:'axp',l:Math.floor(Math.random()*3)-1,z:26})}
+ if(S==0||S==3){nvP-=dt;if(nvP<.8&&!nvW){nvW=1;nvK=Math.random()<.5?-1:1;msg=nvK<0?'Течение влево ←':'Течение вправо →';msgT=.9}if(nvP<=0){nvP=S?2.6:3;nvW=0;lane=Math.max(-1,Math.min(1,lane+nvK))}}
+ nvT-=dt;if(nvT<=0){const o=(t,l,z,x)=>objs.push(Object.assign({t,l,z},x)),L=Math.floor(Math.random()*3)-1,q=Math.random();
+  if(S==0){nvT=1;o('low',L,28);if(q<.5)o('pie',-L||1,30);if(q>.8)o('pie',L,34,{y:1})}
+  else if(S==1){nvT=1.05;const b=L<=0?L+1:L-1;o('big',L,28,{yl:q<.5});o('big',b,28);o('pie',-L||1,32)}
+  else if(S==2){nvT=1.2;const t=Math.floor(nvD/70)%2?'high':'low';for(let l=-1;l<=1;l++)o(t,l,28);o('pie',L,31,{y:t=='low'})}
+  else{nvT=.95;const k=Math.floor(Math.random()*4);if(k==0){for(let l=-1;l<=1;l++)if(l!=L)o('big',l,28,{yl:1})}else if(k==1){o('low',L,28);o('big',L<=0?L+1:L-1,28,{yl:q<.5})}else if(k==2){o('high',L,28);o('high',L<=0?L+1:L-1,28)}else{for(let l=-1;l<=1;l++)o('low',l,28)}if(q<.4)o('pie',L,33)}}
+ if(nvD>=1550)nvEnd()}
+function nvEnd(){ach('a50');if(hurt==nvH)ach('a51');ach('a18');ach('a25');addPie(30);bm=null;w2=1;w2t=1;w2s=0;dist=3000;nextB=3800;spd=Math.max(bsp,18);objs=[];spawnT=22;ax=0;wb=0;msg='Нева позади! Мир 2, 3000 м: впереди Достоевский';msgT=3.5;shake=.5;V.nv=(V.nv||0)+1;sv()}
+function nvOb(o,x,y,u){g.textAlign='center';
+ if(o.t=='low'){g.fillStyle='#6b4a2a';g.beginPath();g.ellipse(x,y-u*.2,u*.55,u*.2,0,0,7);g.fill();g.strokeStyle='#a07a4a';g.lineWidth=2;g.stroke()}
+ else if(o.t=='high'){g.fillStyle='#777';g.fillRect(x-u*.58,y-u*1.8,u*.1,u*1.8);g.fillRect(x+u*.48,y-u*1.8,u*.1,u*1.8);g.fillStyle='#8a8a92';g.fillRect(x-u*.58,y-u*1.8,u*1.16,u*.65);txt('МОСТ',x,y-u*1.35,Math.max(9,u*.2),'#222')}
+ else{g.fillStyle=o.yl?'#e8b830':'#cfeaff';g.beginPath();if(o.yl){g.moveTo(x-u*.6,y-u*.5);g.lineTo(x+u*.6,y-u*.5);g.lineTo(x+u*.45,y);g.lineTo(x-u*.45,y)}else{g.moveTo(x-u*.5,y);g.lineTo(x-u*.35,y-u*1);g.lineTo(x+u*.1,y-u*1.25);g.lineTo(x+u*.5,y-u*.6);g.lineTo(x+u*.45,y)}g.fill();g.strokeStyle='#fff';g.lineWidth=2;g.stroke();if(o.yl){g.fillStyle='#5a4210';g.fillRect(x-u*.3,y-u*.95,u*.6,u*.45)}}}
+function dkNext(){dk.a=(dk.a+1)%4;dk.r=0;dk.sp=.5;dk.at=5.5;dk.m=0;dk.z=18;dk.up=0;dk.t=1;dk.x=0;dk.n=12-dk.h<6?2:3;msg=['СПАМ! Жёлтое топором не сломать','РЯД: ищи розовое!','ЖЁЛТАЯ СТЕНА: ищи пустую дорожку','РЫВОК! Отбей топором ↓'][dk.a];msgT=1.8}
+function dku(dt){ax=999;dk.f-=dt;dk.at-=dt;dk.sp-=dt;dk.t-=dt;const K=(12-dk.h)/12,SPD=1-.35*K,o=(t,l,z,x)=>objs.push(Object.assign({t,l,z},x));
+ if(dk.a<3){dk.up=Math.max(0,dk.up-dt*3);dk.l+=(0-dk.l)*Math.min(1,dt*2)}
+ if(dk.a==0){if(dk.sp<=0){dk.sp=.5*SPD;const q=Math.random(),l=Math.floor(Math.random()*3)-1,t=['low','high','big'][Math.random()*3|0];o(t,l,27,q<.3?{yl:1}:q<.75?null:{pk:1});if(Math.random()<.25)o('pie',Math.floor(Math.random()*3)-1,33)}if(dk.at<=0)dkNext()}
+ else if(dk.a==1){if(dk.sp<=0&&dk.r<4){dk.sp=1.25*SPD;dk.r++;const p=Math.floor(Math.random()*3)-1;for(let l=-1;l<=1;l++)o('big',l,27,l==p?{pk:1}:{yl:1})}if(dk.r>=4&&dk.sp<=-.9)dkNext()}
+ else if(dk.a==2){if(dk.sp<=0&&dk.r<7){dk.sp=1.1*SPD;dk.r++;dk.g=Math.max(-1,Math.min(1,dk.g+(Math.random()<.5?-1:1)*(Math.random()<.25?2:1)));for(let l=-1;l<=1;l++)if(l!=dk.g)o('big',l,27,{yl:1});if(Math.random()<.5)o('pie',dk.g,27)}if(dk.r>=7&&dk.sp<=-.9)dkNext()}
+ else{const rs=()=>{dk.m=0;dk.z=18;dk.up=0;dk.t=1;dk.tl=Math.floor(Math.random()*3)-1;dk.l=dk.tl;if(--dk.n<=0)dkNext()};
+  if(dk.m==0){dk.x-=dt;if(dk.x<=0){dk.x=1;dk.tl=Math.floor(Math.random()*3)-1}dk.l+=(dk.tl-dk.l)*Math.min(1,dt*3);dk.up=Math.max(0,dk.up-dt*3);if(dk.t<=0){dk.m=1;dk.t=[.9,.8,.7,.6][Math.min(3,(12-dk.h)/3|0)];msg='РЫВОК! Бей ↓';msgT=.9}}
+  else if(dk.m==1){dk.up=Math.min(1,dk.up+dt*3);if(dk.t>.28)dk.l+=(px-dk.l)*Math.min(1,dt*4);if(dk.t<=0){dk.m=2;dk.l=Math.max(-1,Math.min(1,Math.round(dk.l)));dk.z=18}}
+  else{dk.up=1;dk.z-=(spd+9)*dt;
+   if(ht>0&&dk.z<5&&dk.z>-.8&&Math.abs(px-dk.l)<.8){dk.h--;dk.f=.4;shake=.45;pts+=150;fx(W/2+dk.l*lw(),gy()-lw()*.8,'#ffd34a',18);ach('a45');ht=0;if(dk.h<=0){dkWin();return}msg='Удар! Достоевский: '+dk.h+'/12';msgT=1.2;rs()}
+   else if(dk.z<-.8){if(Math.abs(px-dk.l)<.6&&inv<=0&&ds<=0){fx(W/2+px*lw(),gy()-lw()*.5,'#fff',10);dmg()}rs()}}}}
+function dkWin(){ach('a46');if(hurt==dkH0)ach('a47');addPie(80);if(lives<5)lives++;msg='Достоевский побеждён! +80 🥟 +1 ❤';msgT=3.5;bm=null;spd=bsp;spawnT=22;objs=[];ax=0;ht=0;dkDone=1;V.dw=(V.dw||0)+1;sv()}
+function ddk(x,y,u,m,up,f){const s=u*1.3,Y=y-up*s*(.7+.15*Math.sin(off*.35));g.save();g.textAlign='center';g.fillStyle='rgba(0,0,0,.3)';g.beginPath();g.ellipse(x,y,s*.5*(1-up*.25),s*.1,0,0,7);g.fill();
+ const au=g.createRadialGradient(x,Y-s*1.1,s*.1,x,Y-s*1.1,s*1.3);au.addColorStop(0,'rgba(255,200,50,'+(.5+.15*Math.sin(off*.4))+')');au.addColorStop(1,'rgba(255,200,50,0)');g.fillStyle=au;g.fillRect(x-s*1.4,Y-s*2.5,s*2.8,s*2.8);
+ g.translate(x,Y);if(m==2)g.rotate(.18);if(f>0)g.globalAlpha=.6;
+ g.fillStyle='#3a2f1e';g.fillRect(-s*.4,-s*1.25,s*.8,s*1.25);g.fillStyle='#d9a441';g.fillRect(-s*.4,-s*.65,s*.8,s*.07);
+ g.strokeStyle='#6b4a2a';g.lineWidth=s*.07;g.lineCap='round';g.beginPath();g.moveTo(s*.6,-s*(m==1?.9:.3));g.lineTo(s*.6,-s*(m==1?2.1:1.5));g.stroke();
+ g.fillStyle='#c9ccd2';g.beginPath();g.moveTo(s*.6,-s*(m==1?2.1:1.5));g.lineTo(s*.95,-s*(m==1?2.2:1.6));g.lineTo(s*.92,-s*(m==1?1.75:1.15));g.lineTo(s*.6,-s*(m==1?1.85:1.25));g.closePath();g.fill();g.strokeStyle='#fff';g.lineWidth=2;g.stroke();
+ g.fillStyle='#f1c9a0';g.beginPath();g.arc(0,-s*1.55,s*.27,0,7);g.fill();g.fillStyle='#8a6a3a';g.beginPath();g.moveTo(-s*.25,-s*1.45);g.lineTo(s*.25,-s*1.45);g.lineTo(0,-s*.95);g.fill();g.fillStyle='#4a3a1a';g.beginPath();g.arc(0,-s*1.62,s*.27,Math.PI,0);g.fill();
+ g.restore();txt('ДОСТОЕВСКИЙ',x,Y-s*2.1,Math.max(10,u*.2),'#ffe9a0')}
 /* ===== ФИОЛЕТОВЫЙ ТОПОР И РАСКОЛЬНИКОВ (НАСТОЯЩИЙ) ===== */
 function getAx(){ax=bm=='rask'?999:Math.max(ax,12);ach('a29');msg=bm=='rask'?'Топор! Присед = удар. Бей, когда он летит!':'Фиолетовый топор! Присед теперь — удар';msgT=2.2;fx(W/2+px*lw(),gy()-lw()*.5,'#c58bff',12)}
 function strike(){if(ht>0||hcd>0)return;ht=.3;hcd=.55}
