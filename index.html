@@ -1,5 +1,11 @@
 <!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Обломов: Беги, Илья Ильич!</title>
 <style>html,body{margin:0;height:100%;background:#3b4a2a;overflow:hidden;touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;font-family:Georgia,serif}canvas{display:block;width:100%;height:100%}</style></head><body><canvas id="c"></canvas><script>
+/* ================================================================
+   ВЕРСИЯ ИГРЫ
+   При ЛЮБОМ изменении кода увеличивай GAME_VERSION на +1.
+   Пример: 1 -> 2 -> 3 -> 4...
+   ================================================================ */
+const GAME_VERSION=1;
 const c=document.getElementById('c'),g=c.getContext('2d');let W,H,D=devicePixelRatio||1;
 var SI={t:0,r:0,b:0,l:0};const spr=document.createElement('div');spr.style.cssText='position:fixed;left:0;top:0;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';document.body.appendChild(spr);
 function rs(){W=innerWidth;H=innerHeight;c.width=W*D;c.height=H*D;g.setTransform(D,0,0,D,0,0);const q=getComputedStyle(spr);SI={t:parseFloat(q.paddingTop)||0,r:parseFloat(q.paddingRight)||0,b:parseFloat(q.paddingBottom)||0,l:parseFloat(q.paddingLeft)||0}}rs();addEventListener('resize',rs);
@@ -161,11 +167,11 @@ function menuUI(f,cx,top,bot){
   Bx('🏆 Ачивки '+Object.keys(V.a).length+'/'+AC.length,x,yy,wd,u,()=>st='ach');return yy+u};
  if(!land){
   const th=Math.min(150,H*.2),u=Math.max(44,Math.min(60,(bot-top-th-24-5*gap-30)/6.35)),wd=Math.min(W-32-SI.l-SI.r,400),x=cx-wd/2;
-  scr(top,bot,th+8+u*6.35+5*gap+50,()=>{txt('🛋️',cx,top+th*.3,th*.3);txt('Обломов',cx,top+th*.62,Math.min(f*1.2,th*.3),'#ffe9b0');txt('Беги, Илья Ильич!',cx,top+th*.84,Math.min(f*.5,th*.13),'#d9a441');
+  scr(top,bot,th+8+u*6.35+5*gap+50,()=>{txt('🛋️',cx,top+th*.3,th*.3);txt('Обломов',cx,top+th*.62,Math.min(f*1.2,th*.3),'#ffe9b0');txt('Беги, Илья Ильич!',cx,top+th*.84,Math.min(f*.5,th*.13),'#d9a441');txt('v'+GAME_VERSION,cx,top+th*1.01,Math.min(f*.34,13),'#aaa');
    const ye=rows(x,wd,top+th+8,u);txt(rec,cx,ye+gap+16,Math.min(f*.45,16),'#aaa')})}
  else{
   const f2=Math.min(40,H/9,W/16),lx=(SI.l+W/2)/2,ly=H/2;
-  txt('🛋️',lx,ly-f2*1.1,f2*1.4);txt('Обломов',lx,ly+f2*.4,f2*1.3,'#ffe9b0');txt('Беги, Илья Ильич!',lx,ly+f2*1.2,f2*.5,'#d9a441');txt(rec,lx,ly+f2*2.1,f2*.42,'#aaa');
+  txt('🛋️',lx,ly-f2*1.1,f2*1.4);txt('Обломов',lx,ly+f2*.4,f2*1.3,'#ffe9b0');txt('Беги, Илья Ильич!',lx,ly+f2*1.2,f2*.5,'#d9a441');txt('v'+GAME_VERSION,lx,ly+f2*1.65,f2*.34,'#aaa');txt(rec,lx,ly+f2*2.1,f2*.42,'#aaa');
   const wd=Math.min((W-SI.l-SI.r)*.45,380),px0=(W/2+W-SI.r)/2,u=Math.max(40,Math.min(54,(bot-top-16-5*gap)/6.35)),ch=u*6.35+5*gap+16;
   scr(top,bot,ch,()=>rows(px0-wd/2,wd,top+Math.max(8,(bot-top-ch)/2+8),u))}}
 function storyUI(cx){
