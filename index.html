@@ -29,7 +29,7 @@ function upd(dt){
  if(jy>0){jv-=38*dt;jy+=jv*dt;if(jy<=0){jy=0;jv=0}}
  if(roll>0){rollDist+=v*dt;rollTotalDist=(rollTotalDist||0)+v*dt;roll-=dt;rollT=Math.max(0,rollT-dt);if(rollTotalDist>=100)ach('a36');if(roll<=0){roll=0;rollT=0;rollCount=0}}
  if(slide>0)slide-=dt;inv-=dt;shake-=dt;msgT-=dt;if(ax>0&&bm!='rask')ax-=dt;
- if(bm)bon(dt);else{spawnT-=spd*dt;if(spawnT<=0){spawn();spawnT=(w2?16:18)+(w2?Math.random()*8:Math.random()*10)-spd*(w2?.1:.07)}}
+ if(bm)bon(dt,v);else{spawnT-=spd*dt;if(spawnT<=0){spawn();spawnT=(w2?16:18)+(w2?Math.random()*8:Math.random()*10)-spd*(w2?.1:.07)}}
  if(!bm&&dist>=nextB)sb();if(!bm&&!w2&&dist>=8000){w2=1;w2t=1;w2s=dist;nextB=dist+800;objs=[];spawnT=22;wb=0;ach('a14');ach('a18');ach('a25');msg='Чернильное пятно! Мир 2: Достоевский';msgT=3.5;shake=.5}if(dist>=500)ach('a2');if(dist>=1000){ach('a3');if(!hurt)ach('a10')}if(dist>=2000)ach('a4');if(w2){const q=dist-w2s;if(q>=500)ach('a19');if(q>=1500)ach('a22');if(q>=3000)ach('a24')}
  hcd-=dt;if(ht>0){ht-=dt;for(const o of objs)if(!o.d&&(o.t=='big'||o.t=='low'||o.t=='high')&&o.z<4.8&&o.z>-.5&&Math.abs(o.l-px)<.7){o.d=1;pts+=20;shake=.12;fx(W/2+px*lw(),gy()-lw()*.5,'#c58bff',10);if(o.t=='big'&&o.st)ach('a30');if(bm=='boss'&&o.z<2.5)bossRush++}}
  for(const o of objs){o.z-=v*dt;
@@ -339,7 +339,7 @@ function d2(dt){if(bmT<=10&&!d2b){d2b=1;bk=0;bx=0;bxT=0;bt2=1;objs=objs.filter(o
  else{bxT-=dt;if(bxT<=0){bxT=.7;bx=Math.floor(Math.random()*3)-1}bk+=(bx-bk)*Math.min(1,dt*4);
   if(bt2<=0){bt2=.62;d2f=Math.max(-1,Math.min(1,d2f+(Math.random()*3|0)-1));for(let l=-1;l<=1;l++)if(l!=d2f)objs.push({t:Math.random()<.7?'big':'low',l,z:18,st:1});
    if(Math.random()<.35)objs.push({t:'high',l:d2f,z:32,st:1});if(Math.random()<.5)objs.push({t:'pie',l:d2f,z:20})}}}
-function bon(dt){bmT-=dt;bt2-=dt;if(bm=='dream2'){d2(dt);if(bmT<=0)eb();return}
+function bon(dt,v){bmT-=dt;bt2-=dt;if(bm=='dream2'){d2(dt);if(bmT<=0)eb();return}
  if(bm=='rask'){rku(dt);return}
  if(bm=='gon'){bxT-=dt;if(bxT<=0){bxT=1.1;bx=Math.max(-1,Math.min(1,Math.round(px)+(Math.random()<.4?(Math.random()<.5?-1:1):0)))}bk+=(bx-bk)*Math.min(1,dt*3);gt-=dt;gc-=dt;
   const ph=gh>6?0:gh>3?1:2;
