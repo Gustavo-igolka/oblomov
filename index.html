@@ -329,7 +329,14 @@ function achR(id){const a=AC.find(x=>x[0]==id);return a?a[3]:'Обыватель
 function ach(id){if(V.a[id])return;V.a[id]=1;sv();tq.push('🏆 '+AC.find(a=>a[0]==id)[1]);STORY.filter(c=>c.a==id).forEach(c=>tq.push('📖 Новая глава: '+c.t))}
 const mult=()=>1+Math.min(4,Math.floor(cb/10));
 function addPie(n){pies+=n;V.w+=n;V.tp+=n;if(bm)bp+=n;cb++;const m=mult();pts+=10*n*m;if(m>=5)ach('a13');if(cb%10==0){msg='Комбо ×'+m+'!';msgT=1.2}fx(W/2+px*lw(),gy()-lw()*.4,'#ffd34a',5);if(V.tp>=100)ach('a5');sv()}
-function sb(fb){bm=fb||(w2?(wb++%2?'rask':'dream2'):['dream','bike','boss','gon'][bn%4]);d2b=0;d2h=hurt;bn++;nextB+=1000;bsp=spd;spd={dream2:20,dream:18,bike:21,boss:16,gon:17,rask:17}[bm];bmD=bmT=bm=='dream2'?24:bm=='bike'?16:bm=='dream'?14:bm=='boss'?15:1e9;bp=0;objs=[];bk=0;bx=0;bxT=0;bt2=0;
+function sb(fb){
+ bm=fb||(w2?(wb++%2?'rask':'dream2'):['dream','bike','boss','gon'][bn%4]);
+ d2b=0;d2h=hurt;bn++;nextB+=1000;bsp=spd;
+ spd={dream2:20,dream:18,bike:21,boss:16,gon:17,rask:17}[bm]||spd;
+ bmD=bmT=bm=='dream2'?24:bm=='bike'?16:bm=='dream'?14:bm=='boss'?15:1e9;
+ bp=0;objs=[];bk=0;bx=0;bxT=0;bt2=0;
+ if(bm=='bike'){bikeDist=0;bikeDodges=0;bikeNearMiss=0;bx=0;bk=0;bxT=.35;bt2=.15;msg='Догони велосипед Андрея и Ольги!';msgT=3;}
+
  if(bm=='gon'){gh=10;gt=2;gc=3;gm=0;gnx=false;gh0=hurt;ach('a17')}
  if(bm=='rask'){rk={h:5,m:0,t:2.2,z:18,l:0,tl:0,up:0,f:0,x:0,s:1,a:0,fl:0};ax=0;ht=0;ach('a31')}
  msg={rask:'РАСКОЛЬНИКОВ! Подбери фиолетовый топор!',dream2:'Сон Обломова 2: кошмар Обломовки!',dream:'Сон Обломова: Обломовка!',bike:'Догони велосипед Андрея и Ольги!',boss:'Штольц требует дел! ВРЕЗАЙСЯ В РОЗОВОЕ!',gon:'ГОНЧАРОВ! Бей, пока он розовый!'}[bm];msgT=3}
@@ -339,7 +346,9 @@ function d2(dt){if(bmT<=10&&!d2b){d2b=1;bk=0;bx=0;bxT=0;bt2=1;objs=objs.filter(o
  else{bxT-=dt;if(bxT<=0){bxT=.7;bx=Math.floor(Math.random()*3)-1}bk+=(bx-bk)*Math.min(1,dt*4);
   if(bt2<=0){bt2=.62;d2f=Math.max(-1,Math.min(1,d2f+(Math.random()*3|0)-1));for(let l=-1;l<=1;l++)if(l!=d2f)objs.push({t:Math.random()<.7?'big':'low',l,z:18,st:1});
    if(Math.random()<.35)objs.push({t:'high',l:d2f,z:32,st:1});if(Math.random()<.5)objs.push({t:'pie',l:d2f,z:20})}}}
-function bon(dt,v){bmT-=dt;bt2-=dt;if(bm=='dream2'){d2(dt);if(bmT<=0)eb();return}
+function bon(dt,v){
+ const speed=Number.isFinite(v)?v:spd;
+ bmT-=dt;bt2-=dt;if(bm=='dream2'){d2(dt);if(bmT<=0)eb();return}
  if(bm=='rask'){rku(dt);return}
  if(bm=='gon'){bxT-=dt;if(bxT<=0){bxT=1.1;bx=Math.max(-1,Math.min(1,Math.round(px)+(Math.random()<.4?(Math.random()<.5?-1:1):0)))}bk+=(bx-bk)*Math.min(1,dt*3);gt-=dt;gc-=dt;
   const ph=gh>6?0:gh>3?1:2;
@@ -349,7 +358,7 @@ function bon(dt,v){bmT-=dt;bt2-=dt;if(bm=='dream2'){d2(dt);if(bmT<=0)eb();return
  if(bm!='dream'){
   if(bm=='bike'){
    bxT-=dt;if(bxT<=0){bxT=.8+Math.random()*.55;const old=bx;bx=Math.floor(Math.random()*3)-1;if(old!==bx)bikeNearMiss=Math.max(0,bikeNearMiss-1)}
-   bk+=(bx-bk)*Math.min(1,dt*3.5);bikeDist+=v*dt;
+   bk+=(bx-bk)*Math.min(1,dt*3.5);bikeDist+=speed*dt;
    if(bt2<=0){bt2=.24;const l=Math.round(bk),q=Math.random();objs.push({t:'pie',l,z:18,g:q<.08});
     if(q<.22){const side=l<=0?l+1:l-1;objs.push({t:'low',l:side,z:30})}
     else if(q<.38){objs.push({t:'high',l:Math.random()<.5?l:(l<=0?l+1:l-1),z:34})}
